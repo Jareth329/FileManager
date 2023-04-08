@@ -12,7 +12,15 @@ config_version=5
 
 config/name="File Manager"
 config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+run/low_processor_mode=true
+config/icon="res://Assets/icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
+window/stretch/aspect="ignore"
 
 [dotnet]
 
