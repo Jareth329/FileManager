@@ -1,0 +1,16 @@
+# godot
+.import/
+.godot/
+*.import
+*.cfg
+
+# csharp
+.mono/
+.vs/
+data_*/
+
+# file
+*.txt
+*.bak
+bin/
+lib/
