@@ -10,20 +10,21 @@ namespace FileManager.Scanner
 {
     internal enum ScanAction { Import, Skip, Blacklist }
 
-    internal static class Scanner
+    internal static class Prescanner
     {
-        private static readonly HashSet<string> blacklistedFolderPaths = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_paths.json")) ?? new HashSet<string>();
-        private static readonly HashSet<string> blacklistedFolderNames = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_names.json")) ?? new HashSet<string>();
+        internal static readonly HashSet<string> BlacklistedFolderPaths = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_paths.json")) ?? new HashSet<string>();
+        internal static readonly HashSet<string> BlacklistedFolderNames = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_names.json")) ?? new HashSet<string>();
 
-        private static readonly Dictionary<string, sbyte> chosenFolders = new();
+        internal static sbyte RecursionDepthOverride { get; set; } = -2;
+        internal static readonly Dictionary<string, sbyte> ChosenFolders = new();
+
         private static readonly Dictionary<string, ScanAction> scannedFolders = new();
         private static readonly HashSet<string> tempFolders = new();
-        private static sbyte recursionDepthOverride = -2;
 
-        internal static void StartPrescan()
+        internal static void Start()
         {
             scannedFolders.Clear();
-            foreach (var folder in chosenFolders)
+            foreach (var folder in ChosenFolders)
                 Prescan(folder.Key, folder.Value);
 
             if (Settings.SkipPreviouslyImportedFolders)
@@ -43,16 +44,16 @@ namespace FileManager.Scanner
         private static sbyte GetMaxRecursionDepth(sbyte recurDepthOverride)
         {
             if (recurDepthOverride > -2) return recurDepthOverride;
-            if (recursionDepthOverride > -2) return recursionDepthOverride;
+            if (RecursionDepthOverride > -2) return RecursionDepthOverride;
             return Settings.MaxScanRecursionDepth;
         }
 
         private static bool IsBlacklisted(string folder)
         {
-            if (blacklistedFolderPaths.ContainsOrdinalIgnore(folder)) return true;
-            if (blacklistedFolderNames.ContainsOrdinalIgnore(new DirectoryInfo(folder).Name))
+            if (BlacklistedFolderPaths.ContainsOrdinalIgnore(folder)) return true;
+            if (BlacklistedFolderNames.ContainsOrdinalIgnore(new DirectoryInfo(folder).Name))
             {
-                blacklistedFolderPaths.Add(folder);
+                BlacklistedFolderPaths.Add(folder);
                 return true;
             }
             return false;
@@ -72,8 +73,8 @@ namespace FileManager.Scanner
             AddFolder(folder, blacklisted, false);
 
             if (recurDepthOverride == 0) return;
-            if (recurDepthOverride == -2 && recursionDepthOverride == 0) return;
-            if (recurDepthOverride == -2 && recursionDepthOverride == -2 && Settings.MaxScanRecursionDepth == 0) return;
+            if (recurDepthOverride == -2 && RecursionDepthOverride == 0) return;
+            if (recurDepthOverride == -2 && RecursionDepthOverride == -2 && Settings.MaxScanRecursionDepth == 0) return;
 
             sbyte maxDepth = GetMaxRecursionDepth(recurDepthOverride);
             foreach (string subfolder in EnumerateFolders(folder, maxDepth))
