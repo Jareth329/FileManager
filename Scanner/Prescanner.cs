@@ -94,7 +94,7 @@ namespace FileManager.Scanner
                         AttributesToSkip = (FileAttributes)16646,
                         IgnoreInaccessible = true,
                         MaxRecursionDepth = recurDepth,
-                        RecurseSubdirectories = recurDepth != 0,
+                        RecurseSubdirectories = true,
                         ReturnSpecialDirectories = false
                     })
                 {
