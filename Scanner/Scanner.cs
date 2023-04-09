@@ -58,31 +58,18 @@ namespace FileManager.Scanner
             return false;
         }
 
-        private static bool AddFolder(string folder, bool parentWasBlacklisted)
+        private static void AddFolder(string folder, bool blacklisted, bool parentWasBlacklisted)
         {
-            if (IsBlacklisted(folder))
-            {
-                scannedFolders[folder] = ScanAction.Blacklist;
-                return true;
-            }
-            else if (parentWasBlacklisted && Settings.SkipSubfoldersOfBlacklistedFolders)
-            {
-                scannedFolders[folder] = ScanAction.Skip;
-            }
-            else if (Settings.SkipPreviouslyImportedFolders)
-            {
-                tempFolders.Add(folder);
-            }
-            else
-            {
-                scannedFolders[folder] = ScanAction.Import;
-            }
-            return false;
+            if (blacklisted) scannedFolders[folder] = ScanAction.Blacklist;
+            else if (parentWasBlacklisted && Settings.SkipSubfoldersOfBlacklistedFolders) scannedFolders[folder] = ScanAction.Skip;
+            else if (Settings.SkipPreviouslyImportedFolders) tempFolders.Add(folder);
+            else scannedFolders[folder] = ScanAction.Import;
         }
 
         private static void Prescan(string folder, sbyte recurDepthOverride)
         {
-            bool blacklisted = AddFolder(folder, false);
+            bool blacklisted = IsBlacklisted(folder);
+            AddFolder(folder, blacklisted, false);
 
             if (recurDepthOverride == 0) return;
             if (recurDepthOverride == -2 && recursionDepthOverride == 0) return;
@@ -90,7 +77,7 @@ namespace FileManager.Scanner
 
             sbyte maxDepth = GetMaxRecursionDepth(recurDepthOverride);
             foreach (string subfolder in EnumerateFolders(folder, maxDepth))
-                _ = AddFolder(subfolder, blacklisted);
+                AddFolder(subfolder, IsBlacklisted(subfolder), blacklisted);
         }
 
         private static IEnumerable<string> EnumerateFolders(string folder, sbyte recurDepth)
