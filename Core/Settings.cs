@@ -10,7 +10,8 @@ namespace FileManager.Core
         internal static sbyte MaxScanRecursionDepth { get; set; } = -1;
 
         internal static bool SkipPreviouslyImportedFolders { get; set; } = true;
-        internal static bool SkipSubfoldersOfBlacklistedFolders { get; set; } = true;
+
+        internal static ushort MaxDatabaseInsertSize { get; set; } = 1024;
 
         internal static string GetMetadataPath()
         {
