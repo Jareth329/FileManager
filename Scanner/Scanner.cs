@@ -97,6 +97,11 @@ namespace FileManager.Scanner
                 }
             }
             tempFolders.Clear();
+
+            if (Settings.AutostartScanOnPrescanCompletion)
+            {
+                Scan();
+            }
         }
 
         private static void PrescanFolder(string folder, sbyte recurDepthOverride)
@@ -196,6 +201,11 @@ namespace FileManager.Scanner
             }
 
             CancelScan();
+
+            if (Settings.AutostartImportOnScanCompletion)
+            {
+                // emit signal to start import process
+            }
         }
 
         private static void IterateFiles(IEnumerable<string> files)

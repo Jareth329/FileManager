@@ -13,6 +13,9 @@ namespace FileManager.Core
 
         internal static ushort MaxDatabaseInsertSize { get; set; } = 1024;
 
+        internal static bool AutostartScanOnPrescanCompletion { get; set; } = false;
+        internal static bool AutostartImportOnScanCompletion { get; set; } = false;
+
         internal static string GetMetadataPath()
         {
             return MetadataPath;
