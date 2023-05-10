@@ -24,13 +24,13 @@ namespace FileManager.Scanner
 
     internal static class Scanner
     {
+        // for these and others, I am not sure if I should just store them in the database or in json; json might be slightly smaller and would be faster since I just
+        // need to load them all once at the start of the program; but it also adds more things I need to keep track of (especially with path management); biggest 
+        // benefit of leaving them as json is that it is easy for users to modify them manually, but idk how frequently users will want to do that
         internal static readonly HashSet<string> BlacklistedFolderPaths = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_paths.json")) ?? new HashSet<string>();
         internal static readonly HashSet<string> BlacklistedFolderNames = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_names.json")) ?? new HashSet<string>();
         internal static readonly HashSet<string> BlacklistedFilePaths = new();
         internal static readonly HashSet<string> BlacklistedFileNames = new();
-
-        //private static readonly Dictionary<FileCategory, string> extensions = new();
-        private static readonly HashSet<string> extensions = new();
 
         // folders in chosenFolders should have their default case, but replace \ with /
         private static readonly Dictionary<string, sbyte> chosenFolders = new();
@@ -38,6 +38,13 @@ namespace FileManager.Scanner
         private static readonly HashSet<string> tempFolders = new();
         private static readonly HashSet<string> tempFiles = new();
         private static readonly HashSet<string> scannedFiles = new();
+
+        // needs to be loaded from database (see Core.Collections (also probably rename that class))
+        // this will just be a temporary set dictating which file extensions should be considered in the scan (based on user settings)
+        // as a result; I might allow the user to choose which categories of files should be scanned (i.e. only IMAGE and AUDIO)
+        // then I can query the list of file extensions belonging to those categories from the relevant table in the database and use it to 
+        // construct this hashset (it might also be best to not have it be static since I would need to call Clear() every time)
+        private static readonly HashSet<string> extensions = new();
 
         internal static sbyte RecursionDepth { get; set; } = -1;
         internal static string CurrentFolder { get; set; } = string.Empty;
