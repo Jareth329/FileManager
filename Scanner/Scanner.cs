@@ -118,8 +118,8 @@ namespace FileManager.Scanner
 
             // return if override is set to 0, or if override is default and recursionDepth is set to not recurse (0)
             if (recurDepthOverride == 0 || (recurDepthOverride == -2 && RecursionDepth == 0)) return;
-
             sbyte maxDepth = (recurDepthOverride > -2) ? recurDepthOverride : RecursionDepth;
+
             foreach (string subfolder in EnumerateFolders(folder, maxDepth))
             {
                 if (cancelling) return;
@@ -174,9 +174,10 @@ namespace FileManager.Scanner
                     }
                 };
             }
-            catch (IOException) { return Array.Empty<string>(); }
-            catch (SecurityException) { return Array.Empty<string>(); }
-            catch (UnauthorizedAccessException) { return Array.Empty<string>(); }
+            catch (Exception ex) when (ex is IOException || ex is SecurityException || ex is UnauthorizedAccessException)
+            {
+                return Array.Empty<string>();
+            }
         }
 
         // -------------------------------------------------------------------------------------------------- //
