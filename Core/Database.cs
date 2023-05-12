@@ -63,6 +63,8 @@ namespace FileManager.Core
                     // id comes first in PK because that will be what I query by
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS imports(id INT, hash TEXT, PK (id, hash));";
                     cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
 
                 using (var connImports = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
@@ -71,11 +73,13 @@ namespace FileManager.Core
                     connImports.Open();
                     using var transaction = connImports.BeginTransaction();
 
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS paths(id INT, path TEXT, PK (id, path));";
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS paths(id INT, path TEXT, idx INT, PK (id, path));";
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS imports(id INT PK, name TEXT, desc TEXT, color INT, proc INT, total INT, succ INT, fail INT, done INT, start INT, finish INT);";
                     cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
 
                 return Error.OK;

@@ -9,27 +9,33 @@ namespace FileManager.Scanner
 {
     internal static class ScannerDatabase
     {
-        internal static Error Insert(ulong importId, IEnumerable<string> paths)
+        internal static Error Insert(ulong importId, string[] paths)
         {
             try
             {
                 using (var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
                 {
                     var cmd = connection.CreateCommand();
-                    // actual table will be (path, id, index) ;; change foreach to for () and use i for index
-                    cmd.CommandText = "INSERT INTO paths (id, path) VALUES ($id, $path)";
+                    cmd.CommandText = "INSERT INTO paths (id, path, idx) VALUES ($id, $path, $index)";
                     cmd.Parameters.AddWithValue("$id", importId);
 
                     var path = cmd.CreateParameter();
                     path.ParameterName = "$path";
                     cmd.Parameters.Add(path);
 
+                    var index = cmd.CreateParameter();
+                    index.ParameterName = "$index";
+                    cmd.Parameters.Add(index);
+
                     connection.Open();
                     using var transaction = connection.BeginTransaction();
 
-                    foreach (string p in paths)
+                    var pathsSpan = new ReadOnlySpan<string>(paths);
+                    int count = pathsSpan.Length;
+                    for (int i = 0; i < count; i++)
                     {
-                        path.Value = p;
+                        path.Value = pathsSpan[i];
+                        index.Value = i;
                         cmd.ExecuteNonQuery();
                     }
 

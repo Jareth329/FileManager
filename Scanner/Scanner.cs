@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Enumeration;
+using System.Linq;
 using System.Security;
 
 namespace FileManager.Scanner
@@ -214,7 +215,7 @@ namespace FileManager.Scanner
 
             if (scannedFiles.Count > 0)
             {
-                ScannerDatabase.Insert(importId, scannedFiles);
+                ScannerDatabase.Insert(importId, scannedFiles.ToArray());
             }
 
             CancelScan();
@@ -239,7 +240,7 @@ namespace FileManager.Scanner
                 // insert into database if count equal to max insert size
                 if (scannedFiles.Count == Settings.MaxDatabaseInsertSize)
                 {
-                    ScannerDatabase.Insert(importId, scannedFiles);
+                    ScannerDatabase.Insert(importId, scannedFiles.ToArray());
                     scannedFiles.Clear();
                 }
             }
