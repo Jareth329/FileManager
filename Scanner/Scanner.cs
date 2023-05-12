@@ -200,7 +200,7 @@ namespace FileManager.Scanner
 
         internal static void Scan()
         {
-            importId = Extensions.GetRandomUInt64();
+            importId = Id.GetRandomUInt64();
 
             IterateFiles(tempFiles);
             foreach (var folderKV in scannedFolders)

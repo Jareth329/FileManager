@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace FileManager.Core
+namespace FileManager.Core.Extensions
 {
     internal static class JsonUtil
     {
