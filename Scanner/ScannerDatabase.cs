@@ -9,7 +9,7 @@ namespace FileManager.Scanner
 {
     internal static class ScannerDatabase
     {
-        internal static Error Insert(ulong importId, string[] paths)
+        internal static void Insert(ulong importId, string[] paths)
         {
             try
             {
@@ -41,20 +41,19 @@ namespace FileManager.Scanner
 
                     transaction.Commit();
                 }
-                return Error.OK;
             }
             catch (SQLiteException sqle)
             {
                 Console.WriteLine(sqle);
-                return Error.Database;
             }
         }
 
-        internal static Error DeletePaths(ulong importId)
+        internal static void DeletePaths(ulong importId)
         {
-            return Error.OK;
+            //
         }
 
+        // will likely change argument/return types
         internal static IEnumerable<string> QueryPreviouslyImportedPaths(IEnumerable<string> paths)
         {
             try

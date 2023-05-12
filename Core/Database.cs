@@ -1,5 +1,4 @@
-﻿using FileManager.Core.Enums;
-using System;
+﻿using System;
 using System.Data.SQLite;
 using System.IO;
 
@@ -7,7 +6,7 @@ namespace FileManager.Core
 {
     internal static class Database
     {
-        internal static Error Create()
+        internal static void Create()
         {
             try
             {
@@ -81,13 +80,10 @@ namespace FileManager.Core
 
                     transaction.Commit();
                 }
-
-                return Error.OK;
             }
             catch (SQLiteException sqle)
             {
                 Console.WriteLine(sqle);
-                return Error.Database;
             }
         }
     }
