@@ -138,7 +138,7 @@ namespace FileManager.Importer
             }
 
             var metaSpan = new ReadOnlySpan<CommonInfo>(metadata, 0, index);
-            Insert(metaSpan);
+            Insert(importId, metaSpan);
             UpdateSuccessCount(importId); // could move this to the end of Import(), but it might actually be better to update this after every batch
             ImportAdditionalMetadata(metaSpan);
         }
@@ -160,15 +160,16 @@ namespace FileManager.Importer
         //  - need to either add support for scanning all files, or allow user to choose new file types to at least add common importer support to
         //      (if user just wants to use tagging/grouping/searching capabilities) (category already defaults to Other if type not recognized)
 
-        private static void Insert(ReadOnlySpan<CommonInfo> _metadata)
+        private static void Insert(ulong importId, ReadOnlySpan<CommonInfo> _metadata)
         {
             try
             {
                 using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
-                SQLiteCommand pathCmd = connection.CreateCommand(), commonCmd = connection.CreateCommand();
+                SQLiteCommand pathCmd = connection.CreateCommand(), commonCmd = connection.CreateCommand(), importCmd = connection.CreateCommand();
                 SQLiteParameter pathHashParam = pathCmd.CreateParameter(), folderParam = pathCmd.CreateParameter(), fileParam = pathCmd.CreateParameter(),
-                    hashParam = commonCmd.CreateParameter(), sizeParam = commonCmd.CreateParameter(), creationParam = commonCmd.CreateParameter(), 
-                    lastWriteParam = commonCmd.CreateParameter(), uploadParam = commonCmd.CreateParameter(), categoryParam = commonCmd.CreateParameter();
+                    hashParam = commonCmd.CreateParameter(), sizeParam = commonCmd.CreateParameter(), creationParam = commonCmd.CreateParameter(),
+                    lastWriteParam = commonCmd.CreateParameter(), uploadParam = commonCmd.CreateParameter(), categoryParam = commonCmd.CreateParameter(),
+                    importHashParam = importCmd.CreateParameter();
 
                 pathCmd.CommandText = "INSERT OR IGNORE INTO paths (hash, folder, file) VALUES ($hash, $folder, $file);";
                 pathCmd.Parameters.Add(pathHashParam);
@@ -182,6 +183,10 @@ namespace FileManager.Importer
                 commonCmd.Parameters.Add(lastWriteParam);
                 commonCmd.Parameters.Add(uploadParam);
                 commonCmd.Parameters.Add(categoryParam);
+
+                importCmd.CommandText = "INSERT OR IGNORE INTO imports (id, hash) VALUES ($importId, $hash);";
+                importCmd.Parameters.AddWithValue("$importId", importId);
+                importCmd.Parameters.Add(importHashParam);
 
                 connection.Open();
                 using var transaction = connection.BeginTransaction();
@@ -200,6 +205,9 @@ namespace FileManager.Importer
                     uploadParam.Value = DateTime.UtcNow.Ticks;
                     categoryParam.Value = (found) ? category : Category.Other;
                     commonCmd.ExecuteNonQuery();
+
+                    importHashParam.Value = item.Hash;
+                    importCmd.ExecuteNonQuery();
                 }
                 transaction.Commit();
             }
@@ -226,7 +234,23 @@ namespace FileManager.Importer
         // this method will handle the COUNT() query and update the Success value for the importInfo in the UI, dictionary, and database
         private static void UpdateSuccessCount(ulong importId)
         {
-            // 
+            try
+            {
+                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT COUNT(*) FROM imports WHERE id = $importId;";
+                cmd.Parameters.AddWithValue("$importId", importId);
+                using var reader = cmd.ExecuteReader();
+                int count = (reader.Read()) ? reader.GetInt32(0) : 0;
+
+                Lists.Imports[importId].Success = count;
+                // update UI
+                // update database
+            }
+            catch (SQLiteException sqle)
+            {
+                Console.WriteLine(sqle);
+            }
         }
     }
 }
