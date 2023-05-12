@@ -138,16 +138,19 @@ namespace FileManager.Importer
             }
 
             var metaSpan = new ReadOnlySpan<CommonInfo>(metadata, 0, index);
-            InsertMetadata(metaSpan);
-            UpdateImportSuccessCount(importId); // could move this to the end of Import(), but it might actually be better to update this after every batch
+            Insert(metaSpan);
+            UpdateSuccessCount(importId); // could move this to the end of Import(), but it might actually be better to update this after every batch
+            ImportAdditionalMetadata(metaSpan);
+        }
 
-            // pass each file off to its specialized importer (if one exists)
-            foreach (var meta in metaSpan)
+        private static void ImportAdditionalMetadata(ReadOnlySpan<CommonInfo> metadata)
+        {
+            foreach (var meta in metadata)
             {
                 string path = Path.Combine(meta.Folder, meta.File);
                 byte category = categoryLookup[meta.Type];
-                // might be best to create a separate category and importer for animation (though still store them in same table as images (probably)
-                // (maybe with specific animation info (frames, etc) in another table))
+                // unsure if animations will be stored in same table as images, but with extra data null for images, or extra in separate table, or if
+                // animations in general will be in a separate table
                 if (category == Category.Image) ImageImporter.Import(meta.Hash, path, meta.Type);
                 else if (category == Category.Animation) AnimationImporter.Import(meta.Hash, path, meta.Type);
                 // handle others here once their importers are created, files with OTHER category will only be processed by the common importer
@@ -157,7 +160,7 @@ namespace FileManager.Importer
         //  - need to either add support for scanning all files, or allow user to choose new file types to at least add common importer support to
         //      (if user just wants to use tagging/grouping/searching capabilities) (category already defaults to Other if type not recognized)
 
-        private static void InsertMetadata(ReadOnlySpan<CommonInfo> _metadata)
+        private static void Insert(ReadOnlySpan<CommonInfo> _metadata)
         {
             try
             {
@@ -221,7 +224,7 @@ namespace FileManager.Importer
         }
 
         // this method will handle the COUNT() query and update the Success value for the importInfo in the UI, dictionary, and database
-        private static void UpdateImportSuccessCount(ulong importId)
+        private static void UpdateSuccessCount(ulong importId)
         {
             // 
         }
