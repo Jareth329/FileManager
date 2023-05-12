@@ -51,15 +51,15 @@ namespace FileManager.Scanner
         internal static sbyte RecursionDepth { get; set; } = -1;
         internal static string CurrentFolder { get; set; } = string.Empty;
 
+        internal static uint ImportColor { get; set; } = 0;
+        internal static string ImportName { get; set; } = string.Empty;
+        internal static string ImportDesc { get; set; } = string.Empty;
+
         // FileAttributes.Encrypted | FileAttributes.Hidden | FileAttributes.System | FileAttributes.Temporary
         private const FileAttributes skippedFolderAttributes = (FileAttributes)16646;
         private static bool cancelling = false;
         private static ulong importId = 0;
         private static int fileCount = 0;
-
-        private static uint importColor = 0;
-        private static string importName = string.Empty;
-        private static string importDesc = string.Empty;
 
         // -------------------------------------------------------------------------------------------------- //
         //                                              Prescan                                               //
@@ -251,9 +251,9 @@ namespace FileManager.Scanner
             Lists.Imports[importId] = new ImportInfo()
             {
                 Id = importId,
-                Name = importName,
-                Description = importDesc,
-                Color = importColor,
+                Name = ImportName,
+                Description = ImportDesc,
+                Color = ImportColor,
                 Total = fileCount
             };
             // insert into database (or do that with a method call on Lists (which would also handle adding to dictionary))
