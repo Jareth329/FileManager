@@ -1,6 +1,7 @@
 ﻿using FileManager.Core;
 using FileManager.Core.Enums;
 using FileManager.Core.Extensions;
+using FileManager.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +53,12 @@ namespace FileManager.Scanner
         // FileAttributes.Encrypted | FileAttributes.Hidden | FileAttributes.System | FileAttributes.Temporary
         private const FileAttributes skippedFolderAttributes = (FileAttributes)16646;
         private static bool cancelling = false;
-        private static ulong scanId = 0;
+        private static ulong importId = 0;
+        private static int fileCount = 0;
+
+        private static uint importColor = 0;
+        private static string importName = string.Empty;
+        private static string importDesc = string.Empty;
 
         // -------------------------------------------------------------------------------------------------- //
         //                                              Prescan                                               //
@@ -185,14 +191,15 @@ namespace FileManager.Scanner
         // -------------------------------------------------------------------------------------------------- //
         internal static void CancelScan()
         {
+            fileCount = 0;
             CancelPrescan();
             scannedFiles.Clear();
-            ScannerDatabase.DeletePaths(scanId);
+            ScannerDatabase.DeletePaths(importId);
         }
 
         internal static void Scan()
         {
-            scanId = Extensions.GetRandomUInt64();
+            importId = Extensions.GetRandomUInt64();
 
             IterateFiles(tempFiles);
             foreach (var folderKV in scannedFolders)
@@ -203,9 +210,11 @@ namespace FileManager.Scanner
                 }
             }
 
+            CreateImportInfo();
+
             if (scannedFiles.Count > 0)
             {
-                ScannerDatabase.Insert(scanId, scannedFiles);
+                ScannerDatabase.Insert(importId, scannedFiles);
             }
 
             CancelScan();
@@ -225,14 +234,28 @@ namespace FileManager.Scanner
                 // only create FileInfo objects if filter is not set to default values
                 if (!FileFilter.IsDefault() && !IsWithinConstraints(file)) continue;
                 scannedFiles.Add(file);
+                fileCount++;
 
                 // insert into database if count equal to max insert size
                 if (scannedFiles.Count == Settings.MaxDatabaseInsertSize)
                 {
-                    ScannerDatabase.Insert(scanId, scannedFiles);
+                    ScannerDatabase.Insert(importId, scannedFiles);
                     scannedFiles.Clear();
                 }
             }
+        }
+
+        private static void CreateImportInfo()
+        {
+            Lists.Imports[importId] = new ImportInfo()
+            {
+                Id = importId,
+                Name = importName,
+                Description = importDesc,
+                Color = importColor,
+                Total = fileCount
+            };
+            // insert into database (or do that with a method call on Lists (which would also handle adding to dictionary))
         }
 
         private static bool IsWithinConstraints(string file)
