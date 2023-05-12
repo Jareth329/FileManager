@@ -1,5 +1,4 @@
 ﻿using FileManager.Core;
-using FileManager.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
