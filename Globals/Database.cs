@@ -65,6 +65,20 @@ namespace FileManager.Globals
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS imports(id INT, hash TEXT, PK (id, hash));";
                     cmd.ExecuteNonQuery();
                 }
+
+                using (var connImports = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
+                {
+                    var cmd = connImports.CreateCommand();
+                    connImports.Open();
+                    using var transaction = connImports.BeginTransaction();
+
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS paths(id INT, path TEXT, PK (id, path));";
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS imports(id INT PK, name TEXT, desc TEXT, color INT, proc INT, total INT, succ INT, fail INT, done INT, start INT, finish INT);";
+                    cmd.ExecuteNonQuery();
+                }
+
                 return Error.OK;
             }
             catch (SQLiteException sqle)
