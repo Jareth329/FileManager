@@ -3,6 +3,20 @@ using System.Collections.Generic;
 
 namespace FileManager.Core
 {
+    // using individual byte declarations for now to save ram (probably)
+    // internal enum Category { Image, Video, Audio, Text, Model, AI, Other }
+    internal static class Category
+    {
+        internal const byte Image = 0;
+        internal const byte Animation = 1;
+        internal const byte Video = 2;
+        internal const byte Audio = 3;
+        internal const byte Model = 4;
+        internal const byte Text = 5;
+        internal const byte AI = 6;
+        internal const byte Other = 11;
+    }
+
     internal static class Lists
     {
         // load from .json file; will contain 

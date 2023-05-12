@@ -21,20 +21,6 @@ namespace FileManager.Importer
         // have an additional state for 'processing' to indicate another thread is handling it (and then update the batch when it is queried), or
         // have this method handle the threading itself (so it can keep track of the current offset in the table and prevent duplicate importing)
 
-        // using individual byte declarations for now to save ram (probably)
-        // internal enum Category { Image, Video, Audio, Text, Model, AI, Other }
-        internal static class Category
-        {
-            internal const byte Image = 0;
-            internal const byte Animation = 1;
-            internal const byte Video = 2;
-            internal const byte Audio = 3;
-            internal const byte Model = 4;
-            internal const byte Text = 5;
-            internal const byte AI = 6;
-            internal const byte Other = 11;
-        }
-
         // this might be declared in another class; might also have a Dictionary<byte, string[]> for easily getting a list of types for a category
         private static readonly Dictionary<string, byte> categoryLookup = new(); // png:0 for example
 

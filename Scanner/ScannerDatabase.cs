@@ -55,7 +55,7 @@ namespace FileManager.Scanner
             {
                 using (var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
                 {
-                    //
+                    return Array.Empty<string>(); // tmp
                 }
             }
             catch (SQLiteException sqle)
