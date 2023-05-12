@@ -1,5 +1,6 @@
 ﻿using FileManager.Core;
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Security;
@@ -54,6 +55,23 @@ namespace FileManager.Importer
             }
         }
 
+        // using individual byte declarations for now to save ram (probably)
+        // internal enum Category { Image, Video, Audio, Text, Model, AI, Other }
+        internal static class Category
+        {
+            internal const byte Image = 0;
+            internal const byte Animation = 1;
+            internal const byte Video = 2;
+            internal const byte Audio = 3;
+            internal const byte Model = 4;
+            internal const byte Text = 5;
+            internal const byte AI = 6;
+            internal const byte Other = 11;
+        }
+
+        // this might be declared in another class; might also have a Dictionary<byte, string[]> for easily getting a list of types for a category
+        private static readonly Dictionary<string, byte> categoryLookup = new(); // png:0 for example
+
         internal static void Import(ulong importId)
         {
             try
@@ -61,7 +79,7 @@ namespace FileManager.Importer
                 int offset = 0, limit = Settings.MaxImportBatchSize;
                 string[] paths = new string[limit];
 
-                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "paths.db")}");
+                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}");
                 SQLiteCommand cmd = connection.CreateCommand(), delete = connection.CreateCommand();
                 SQLiteParameter offsetParam = cmd.CreateParameter(), endpointParam = cmd.CreateParameter(), deleteEndpointParam = delete.CreateParameter();
 
@@ -79,6 +97,8 @@ namespace FileManager.Importer
                 offsetParam.ParameterName = "$offset";
                 endpointParam.ParameterName = "$endpoint";
                 deleteEndpointParam.ParameterName = "$endpoint";
+
+                Lists.Imports[importId].Started = DateTime.UtcNow.Ticks;
 
                 while (true)
                 {
@@ -165,9 +185,25 @@ namespace FileManager.Importer
                 UpdateDictionaryAndUI(importId, failed);
             }
 
-            InsertMetadata(new ReadOnlySpan<CommonMetadata>(metadata, 0, index));
+            var metaSpan = new ReadOnlySpan<CommonMetadata>(metadata, 0, index);
+            InsertMetadata(metaSpan);
             UpdateImportSuccessCount(importId); // could move this to the end of Import(), but it might actually be better to update this after every batch
+
+            // pass each file off to its specialized importer (if one exists)
+            foreach (var meta in metaSpan)
+            {
+                string path = Path.Combine(meta.Folder, meta.File);
+                byte category = categoryLookup[meta.Type];
+                // might be best to create a separate category and importer for animation (though still store them in same table as images (probably)
+                // (maybe with specific animation info (frames, etc) in another table))
+                if (category == Category.Image) ImageImporter.Import(meta.Hash, path, meta.Type);
+                else if (category == Category.Animation) AnimationImporter.Import(meta.Hash, path, meta.Type);
+                // handle others here once their importers are created, files with OTHER category will only be processed by the common importer
+            }
         }
+
+        //  - need to either add support for scanning all files, or allow user to choose new file types to at least add common importer support to
+        //      (if user just wants to use tagging/grouping/searching capabilities) (category already defaults to Other if type not recognized)
 
         private static void InsertMetadata(ReadOnlySpan<CommonMetadata> _metadata)
         {
@@ -176,21 +212,21 @@ namespace FileManager.Importer
                 using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
                 SQLiteCommand pathCmd = connection.CreateCommand(), commonCmd = connection.CreateCommand();
                 SQLiteParameter pathHashParam = pathCmd.CreateParameter(), folderParam = pathCmd.CreateParameter(), fileParam = pathCmd.CreateParameter(),
-                    hashParam = commonCmd.CreateParameter(), typeParam = commonCmd.CreateParameter(), sizeParam = commonCmd.CreateParameter(),
-                    creationParam = commonCmd.CreateParameter(), lastWriteParam = commonCmd.CreateParameter(), uploadParam = commonCmd.CreateParameter();
+                    hashParam = commonCmd.CreateParameter(), sizeParam = commonCmd.CreateParameter(), creationParam = commonCmd.CreateParameter(), 
+                    lastWriteParam = commonCmd.CreateParameter(), uploadParam = commonCmd.CreateParameter(), categoryParam = commonCmd.CreateParameter();
 
-                pathCmd.CommandText = "INSERT OR IGNORE INTO paths VALUES ($hash, $folder, $file);";
+                pathCmd.CommandText = "INSERT OR IGNORE INTO paths (hash, folder, file) VALUES ($hash, $folder, $file);";
                 pathCmd.Parameters.Add(pathHashParam);
                 pathCmd.Parameters.Add(folderParam);
                 pathCmd.Parameters.Add(fileParam);
 
-                commonCmd.CommandText = "INSERT OR IGNORE INTO common VALUES ($hash, $type, $size, $creation, $lastWrite, $upload);";
+                commonCmd.CommandText = "INSERT OR IGNORE INTO common (hash, size, create, lastw, fstup, cat) VALUES ($hash, $size, $creation, $lastWrite, $upload, $category);";
                 commonCmd.Parameters.Add(hashParam);
-                pathCmd.Parameters.Add(typeParam);
                 commonCmd.Parameters.Add(sizeParam);
                 commonCmd.Parameters.Add(creationParam);
                 commonCmd.Parameters.Add(lastWriteParam);
                 commonCmd.Parameters.Add(uploadParam);
+                commonCmd.Parameters.Add(categoryParam);
 
                 connection.Open();
                 using var transaction = connection.BeginTransaction();
@@ -201,12 +237,13 @@ namespace FileManager.Importer
                     fileParam.Value = item.File;
                     pathCmd.ExecuteNonQuery();
 
+                    bool found = categoryLookup.TryGetValue(item.Type, out byte category);
                     hashParam.Value = item.Hash;
-                    typeParam.Value = item.Type;
                     sizeParam.Value = item.Size;
                     creationParam.Value = item.CreationTime;
                     lastWriteParam.Value = item.LastWriteTime;
                     uploadParam.Value = DateTime.UtcNow.Ticks;
+                    categoryParam.Value = (found) ? category : Category.Other;
                     commonCmd.ExecuteNonQuery();
                 }
                 transaction.Commit();
@@ -223,9 +260,15 @@ namespace FileManager.Importer
         private static void UpdateDictionaryAndUI(ulong importId, bool failed)
         {
             // update ui and dictionary of importInfo
+            var temp = Lists.Imports[importId];
+            temp.Processed++;
+            if (failed) temp.Failure++;
+            Lists.Imports[importId] = temp;
+
+            // update ui (the reason temp exists, since otherwise I need to access imports[importId] 2x anyways and it would be pointless)
         }
 
-        // this method will handle the COUNT() query and update the value for the importInfo in the UI, dictionary, and database
+        // this method will handle the COUNT() query and update the Success value for the importInfo in the UI, dictionary, and database
         private static void UpdateImportSuccessCount(ulong importId)
         {
             // 

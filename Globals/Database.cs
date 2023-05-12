@@ -32,7 +32,7 @@ namespace FileManager.Globals
                     //      value during the image import if the actual value does not match extension (a bit slower than doing it at once, but causes
                     //      fewer issues overall and is more compatible with the idea of multiple importers)
                     //      might also add more time variables (like lstup :: last upload time)
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS common(hash TEXT PK, size INT, create INT, lastw INT, fstup INT, laste INT, type INT)";
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS common(hash TEXT PK, size INT, create INT, lastw INT, fstup INT, cat INT);";
                     cmd.ExecuteNonQuery();
 
                     // for storing folder relationships (parents/etc) I think it is better to have those relationships be stored in a separate table
