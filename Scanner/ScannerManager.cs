@@ -20,12 +20,13 @@ namespace FileManager.Scanner
         // called whenever the currently processing path should be updated
         public static string GetCurrentFolder() => Scanner.CurrentFolder;
 
-        // called whenever user changes the name for the import
-
-        // called whenever user changes the color for the import
-
         // connect to the signal emitted by the changing of Settings.MaxScanRecursionDepth
         private static void SignalEXAMPLE(sbyte maxDepth) => SetRecursionDepth(maxDepth);
+
+        // these might be moved to Importer
+        public static void SetImportColor(uint color) => Scanner.ImportColor = color;
+        public static void SetImportName(string name) => Scanner.ImportName = name;
+        public static void SetImportDesc(string desc) => Scanner.ImportDesc = desc;
 
         // -------------------------------------------------------------------------------------------------- //
         //                                              Prescan                                               //
