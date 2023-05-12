@@ -1,10 +1,9 @@
-﻿using FileManager.Core;
-using FileManager.Core.Enums;
+﻿using FileManager.Core.Enums;
 using System;
 using System.Data.SQLite;
 using System.IO;
 
-namespace FileManager.Globals
+namespace FileManager.Core
 {
     internal static class Database
     {
