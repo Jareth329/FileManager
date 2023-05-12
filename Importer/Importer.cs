@@ -1,4 +1,5 @@
 ﻿using FileManager.Core;
+using FileManager.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -19,41 +20,6 @@ namespace FileManager.Importer
         // updated to be true right before this method exits (though this does create an issue with multiple threads, so I would need to either 
         // have an additional state for 'processing' to indicate another thread is handling it (and then update the batch when it is queried), or
         // have this method handle the threading itself (so it can keep track of the current offset in the table and prevent duplicate importing)
-
-        internal sealed class CommonMetadata
-        {
-            internal string Hash { get; set; }
-            internal string Folder { get; set; }
-            internal string File { get; set; }
-            internal string Type { get; set; }
-
-            internal long Size { get; set; }
-            internal long CreationTime { get; set; }
-            internal long LastWriteTime { get; set; }
-
-            internal CommonMetadata(string hash, FileInfo? info)
-            {
-                Hash = hash;
-
-                if (info is not null)
-                {
-                    Folder = info.DirectoryName ?? string.Empty;
-                    File = info.Name;
-                    // this is fine for initial type calculation; will need to be updated by category importer if extension does not match actual type
-                    Type = info.Extension.ToUpperInvariant();
-                    Size = info.Length;
-                    CreationTime = info.CreationTimeUtc.Ticks;
-                    LastWriteTime = info.LastWriteTimeUtc.Ticks;
-                }
-                else
-                {
-                    Folder = string.Empty;
-                    File = string.Empty;
-                    Type = string.Empty;
-                    Size = -1;
-                }
-            }
-        }
 
         // using individual byte declarations for now to save ram (probably)
         // internal enum Category { Image, Video, Audio, Text, Model, AI, Other }
@@ -156,7 +122,7 @@ namespace FileManager.Importer
         private static void ProcessBatch(ulong importId, ReadOnlySpan<string> paths)
         {
             int count = paths.Length, index = 0;
-            var metadata = new CommonMetadata[count];
+            var metadata = new CommonInfo[count];
 
             for (int i = 0; i < count; i++)
             {
@@ -170,7 +136,7 @@ namespace FileManager.Importer
                         // could use another method to avoid reliance on Godot here, but this is the fastest I have tested
                         string hash = Godot.FileAccess.GetSha256(path);
                         var fileInfo = new FileInfo(path);
-                        var meta = new CommonMetadata(hash, fileInfo);
+                        var meta = new CommonInfo(hash, fileInfo);
                         if (meta.Size < 0) failed = true;
                         else metadata[index] = meta;
                     }
@@ -185,7 +151,7 @@ namespace FileManager.Importer
                 UpdateDictionaryAndUI(importId, failed);
             }
 
-            var metaSpan = new ReadOnlySpan<CommonMetadata>(metadata, 0, index);
+            var metaSpan = new ReadOnlySpan<CommonInfo>(metadata, 0, index);
             InsertMetadata(metaSpan);
             UpdateImportSuccessCount(importId); // could move this to the end of Import(), but it might actually be better to update this after every batch
 
@@ -205,7 +171,7 @@ namespace FileManager.Importer
         //  - need to either add support for scanning all files, or allow user to choose new file types to at least add common importer support to
         //      (if user just wants to use tagging/grouping/searching capabilities) (category already defaults to Other if type not recognized)
 
-        private static void InsertMetadata(ReadOnlySpan<CommonMetadata> _metadata)
+        private static void InsertMetadata(ReadOnlySpan<CommonInfo> _metadata)
         {
             try
             {
