@@ -12,5 +12,6 @@ data_*/
 # file
 *.txt
 *.bak
+*.db
 bin/
 lib/
