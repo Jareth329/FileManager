@@ -107,12 +107,14 @@ namespace FileManager.Scanner
                 // temporary : constructs scannedFolders assuming none have been previously imported
                 foreach (string folder in tempFolders)
                 {
-                    scannedFolders[folder] = ScanAction.Import;
+                    scannedFolders[folder] = ScanAction.Scan;
                 }
 
-                var results = ScannerDatabase.QueryPreviouslyImportedPaths(tempFolders);    // folders that have been previously imported (IGNORE/SKIP)
-                tempFolders.ExceptWith(results);                                            // folders that have NOT been previously imported (IMPORT/SCAN)
-                // use these (and blacklist if not applied elsewhere) to construct scannedFolders
+                /*var results = ScannerDatabase.QueryPreviouslyImportedPaths(tempFolders);    // folders that have been previously imported (IGNORE)
+                tempFolders.ExceptWith(results);                                            // folders that have NOT been previously imported (SCAN)
+
+                foreach (string importedFolder in results) scannedFolders[importedFolder] = ScanAction.Ignore;
+                foreach (string newFolder in tempFolders) scannedFolders[newFolder] = ScanAction.Scan;*/
             }
             tempFolders.Clear();
 
@@ -155,7 +157,7 @@ namespace FileManager.Scanner
             if (IsBlacklisted(folder)) scannedFolders[folder] = ScanAction.Blacklist;
             // add to TempFolders to be filtered by sql query later
             else if (Settings.SkipPreviouslyImportedFolders) tempFolders.Add(folder);
-            else scannedFolders[folder] = ScanAction.Import;
+            else scannedFolders[folder] = ScanAction.Scan;
         }
 
         // pretty sure that docs said any negative number for MaxRecursionDepth would be interpreted as int.MaxValue, but that seems to be false
