@@ -104,16 +104,15 @@ namespace FileManager.Scanner
 
             if (Settings.SkipPreviouslyImportedFolders)
             {
-                // construct sqlite query from tempFolders
+                // temporary : constructs scannedFolders assuming none have been previously imported
                 foreach (string folder in tempFolders)
                 {
-                    // temporary test
                     scannedFolders[folder] = ScanAction.Import;
                 }
 
-                // construct ScannedFolders from results
-                // folders returned by sqlite query should be marked as Skip, others marked as Import)
-                // consider changing Import => Scan, Skip => Ignore
+                var results = ScannerDatabase.QueryPreviouslyImportedPaths(tempFolders);    // folders that have been previously imported (IGNORE/SKIP)
+                tempFolders.ExceptWith(results);                                            // folders that have NOT been previously imported (IMPORT/SCAN)
+                // use these (and blacklist if not applied elsewhere) to construct scannedFolders
             }
             tempFolders.Clear();
 
