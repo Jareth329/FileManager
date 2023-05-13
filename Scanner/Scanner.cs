@@ -104,17 +104,11 @@ namespace FileManager.Scanner
 
             if (Settings.SkipPreviouslyImportedFolders)
             {
-                // temporary : constructs scannedFolders assuming none have been previously imported
-                foreach (string folder in tempFolders)
-                {
-                    scannedFolders[folder] = ScanAction.Scan;
-                }
-
-                /*var results = ScannerDatabase.QueryPreviouslyImportedPaths(tempFolders);    // folders that have been previously imported (IGNORE)
+                var results = ScannerDatabase.QueryPreviouslyImportedPaths(tempFolders);    // folders that have been previously imported (IGNORE)
                 tempFolders.ExceptWith(results);                                            // folders that have NOT been previously imported (SCAN)
 
                 foreach (string importedFolder in results) scannedFolders[importedFolder] = ScanAction.Ignore;
-                foreach (string newFolder in tempFolders) scannedFolders[newFolder] = ScanAction.Scan;*/
+                foreach (string newFolder in tempFolders) scannedFolders[newFolder] = ScanAction.Scan;
             }
             tempFolders.Clear();
 
@@ -212,7 +206,7 @@ namespace FileManager.Scanner
             IterateFiles(tempFiles);
             foreach (var folderKV in scannedFolders)
             {
-                if (folderKV.Value == ScanAction.Import)
+                if (folderKV.Value == ScanAction.Scan)
                 {
                     IterateFiles(Directory.GetFiles(folderKV.Key));
                 }

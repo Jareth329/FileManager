@@ -176,7 +176,7 @@ namespace FileManager.Importer
                 pathCmd.Parameters.Add(folderParam);
                 pathCmd.Parameters.Add(fileParam);
 
-                commonCmd.CommandText = "INSERT OR IGNORE INTO common (hash, size, create, lastw, fstup, cat) VALUES ($hash, $size, $creation, $lastWrite, $upload, $category);";
+                commonCmd.CommandText = "INSERT OR IGNORE INTO common (hash, size, creat, lastw, fstup, cat) VALUES ($hash, $size, $creation, $lastWrite, $upload, $category);";
                 commonCmd.Parameters.Add(hashParam);
                 commonCmd.Parameters.Add(sizeParam);
                 commonCmd.Parameters.Add(creationParam);
