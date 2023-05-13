@@ -197,10 +197,11 @@ namespace FileManager.Scanner
         // -------------------------------------------------------------------------------------------------- //
         internal static void CancelScan()
         {
-            fileCount = 0;
             CancelPrescan();
             scannedFiles.Clear();
             ScannerDatabase.DeletePaths(importId);
+            ScannerDatabase.TotalCount = 0;
+            fileCount = 0;
         }
 
         internal static void Scan()

@@ -73,7 +73,7 @@ namespace FileManager.Core
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS imports (id INT PK, name TEXT, desc TEXT, color INT, proc INT, total INT, succ INT, fail INT, done INT, start INT, finish INT);";
                     cmd.ExecuteNonQuery();
 
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS paths (id INT FK REFERENCES imports(id), path TEXT, idx INT, PRIMARY KEY (id, path));";
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS paths (id INT FK REFERENCES imports(id), idx INT, path TEXT, PRIMARY KEY (id, path));";
                     cmd.ExecuteNonQuery();
 
                     transaction.Commit();

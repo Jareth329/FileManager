@@ -9,6 +9,8 @@ namespace FileManager.Scanner
 {
     internal static class ScannerDatabase
     {
+        internal static int TotalCount { get; set; }
+
         internal static void Insert(ulong importId, string[] paths)
         {
             try
@@ -16,7 +18,7 @@ namespace FileManager.Scanner
                 using (var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
                 {
                     var cmd = connection.CreateCommand();
-                    cmd.CommandText = "INSERT INTO paths (id, path, idx) VALUES ($id, $path, $index)";
+                    cmd.CommandText = "INSERT INTO paths (id, idx, path) VALUES ($id, $index, $path)";
                     cmd.Parameters.AddWithValue("$id", importId);
 
                     var path = cmd.CreateParameter();
@@ -30,13 +32,12 @@ namespace FileManager.Scanner
                     connection.Open();
                     using var transaction = connection.BeginTransaction();
 
-                    var pathsSpan = new ReadOnlySpan<string>(paths);
-                    int count = pathsSpan.Length;
-                    for (int i = 0; i < count; i++)
+                    foreach (string p in new ReadOnlySpan<string>(paths))
                     {
-                        path.Value = pathsSpan[i];
-                        index.Value = i;
+                        path.Value = p;
+                        index.Value = TotalCount;
                         cmd.ExecuteNonQuery();
+                        TotalCount++;
                     }
 
                     transaction.Commit();
