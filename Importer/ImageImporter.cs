@@ -2,6 +2,8 @@
 {
     internal static class ImageImporter
     {
+        // PerceptualHashes and Colors need to be either changed to internal, or AnimationImporter needs to be merged with this class
+
         private struct PerceptualHashes
         {
             internal ulong Average = 0;

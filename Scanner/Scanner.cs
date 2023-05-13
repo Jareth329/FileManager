@@ -29,8 +29,8 @@ namespace FileManager.Scanner
         // for these and others, I am not sure if I should just store them in the database or in json; json might be slightly smaller and would be faster since I just
         // need to load them all once at the start of the program; but it also adds more things I need to keep track of (especially with path management); biggest 
         // benefit of leaving them as json is that it is easy for users to modify them manually, but idk how frequently users will want to do that
-        internal static readonly HashSet<string> BlacklistedFolderPaths = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_paths.json")) ?? new HashSet<string>();
-        internal static readonly HashSet<string> BlacklistedFolderNames = JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_names.json")) ?? new HashSet<string>();
+        internal static readonly HashSet<string> BlacklistedFolderPaths = new(); // JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_paths.json")) ?? new HashSet<string>();
+        internal static readonly HashSet<string> BlacklistedFolderNames = new(); // JsonUtil.LoadHashSetFromFile(Path.Combine(Settings.GetMetadataPath(), "blacklisted_folder_names.json")) ?? new HashSet<string>();
         internal static readonly HashSet<string> BlacklistedFilePaths = new();
         internal static readonly HashSet<string> BlacklistedFileNames = new();
 
@@ -98,6 +98,7 @@ namespace FileManager.Scanner
             scannedFolders.Clear();
             foreach (var folder in chosenFolders)
             {
+                Console.WriteLine(folder);
                 if (cancelling) return;
                 PrescanFolder(folder.Key, folder.Value);
             }
@@ -107,7 +108,7 @@ namespace FileManager.Scanner
                 // construct sqlite query from tempFolders
                 foreach (string folder in tempFolders)
                 {
-                    //
+                    Console.WriteLine(folder);
                 }
             }
             tempFolders.Clear();
@@ -154,6 +155,7 @@ namespace FileManager.Scanner
             else scannedFolders[folder] = ScanAction.Import;
         }
 
+        // pretty sure that docs said any negative number for MaxRecursionDepth would be interpreted as int.MaxValue, but that seems to be false
         private static IEnumerable<string> EnumerateFolders(string folder, sbyte maxDepth)
         {
             try
@@ -165,7 +167,7 @@ namespace FileManager.Scanner
                     {
                         AttributesToSkip = skippedFolderAttributes,
                         IgnoreInaccessible = true,
-                        MaxRecursionDepth = maxDepth,
+                        MaxRecursionDepth = (maxDepth < 0) ? int.MaxValue : maxDepth,
                         RecurseSubdirectories = true,
                         ReturnSpecialDirectories = false
                     })
