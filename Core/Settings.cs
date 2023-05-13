@@ -17,9 +17,13 @@ namespace FileManager.Core
         internal static bool AutostartScanOnPrescanCompletion { get; set; } = false;
         internal static bool AutostartImportOnScanCompletion { get; set; } = false;
 
+        internal static bool SqliteUseSynchronousOff { get; set; } = false;
+
         internal static string GetMetadataPath()
         {
             return MetadataPath;
         }
+
+        internal static string GetSqliteSynchronous() => (SqliteUseSynchronousOff) ? "OFF" : "NORMAL";
     }
 }
