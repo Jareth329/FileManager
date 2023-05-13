@@ -46,7 +46,11 @@ namespace FileManager.Scanner
         // as a result; I might allow the user to choose which categories of files should be scanned (i.e. only IMAGE and AUDIO)
         // then I can query the list of file extensions belonging to those categories from the relevant table in the database and use it to 
         // construct this hashset (it might also be best to not have it be static since I would need to call Clear() every time)
-        private static readonly HashSet<string> extensions = new();
+        private static readonly HashSet<string> extensions = new()
+        {
+            // temporarily populate this with values (need to load from somewhere eventually)
+            ".PNG", ".JPEG", ".JPG", ".JFIF", ".GIF", ".APNG", ".WEBP", ".BMP", ".SVG", ".TGA"
+        };
 
         internal static sbyte RecursionDepth { get; set; } = -1;
         internal static string CurrentFolder { get; set; } = string.Empty;
@@ -231,7 +235,6 @@ namespace FileManager.Scanner
         {
             foreach (string file in files)
             {
-                Console.WriteLine(file);
                 if (cancelling) return;
                 if (!extensions.Contains(Path.GetExtension(file).ToUpperInvariant())) continue;
                 // only create FileInfo objects if filter is not set to default values
