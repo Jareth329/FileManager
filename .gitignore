@@ -13,5 +13,7 @@ data_*/
 *.txt
 *.bak
 *.db
+*.db-shm
+*.db-wal
 bin/
 lib/
