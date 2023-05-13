@@ -53,7 +53,7 @@ namespace FileManager.Scanner
             //
         }
 
-        // will likely change argument/return types
+        // will likely change return type
         internal static IEnumerable<string> QueryPreviouslyImportedPaths(HashSet<string> folders)
         {
             try
@@ -61,7 +61,7 @@ namespace FileManager.Scanner
                 using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
                 var cmd = connection.CreateCommand();
 
-                // should result in something like: WHERE folder=f0 OR folder=f1 OR folder=f2 ... with each one being a proper paramter
+                // should result in something like: WHERE folder=f0 OR folder=f1 OR folder=f2 ... with each one being a proper parameter
                 var builder = new StringBuilder("SELECT folder FROM paths WHERE folder=f0");
                 int count = 0;
                 foreach (var folder in folders)
