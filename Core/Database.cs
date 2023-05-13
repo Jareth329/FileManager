@@ -6,11 +6,16 @@ namespace FileManager.Core
 {
     internal static class Database
     {
+        internal static string GetConnectionString(string dbName)
+        {
+            return $"Data Source={Path.Combine(Settings.GetMetadataPath(), dbName)};Synchronous={Settings.GetSqliteSynchronous()};Journal Mode=WAL";
+        }
+
         internal static void Create()
         {
             try
             {
-                using (var connMetadata = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}"))
+                using (var connMetadata = new SQLiteConnection(GetConnectionString("metadata.db")))
                 {
                     var cmd = connMetadata.CreateCommand();
                     connMetadata.Open();
@@ -64,7 +69,7 @@ namespace FileManager.Core
                     transaction.Commit();
                 }
 
-                using (var connImports = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
+                using (var connImports = new SQLiteConnection(GetConnectionString("imports.db")))
                 {
                     var cmd = connImports.CreateCommand();
                     connImports.Open();

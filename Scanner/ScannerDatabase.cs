@@ -15,7 +15,8 @@ namespace FileManager.Scanner
         {
             try
             {
-                using (var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}"))
+
+                using (var connection = new SQLiteConnection(Database.GetConnectionString("imports.db")))
                 {
                     var cmd = connection.CreateCommand();
                     cmd.CommandText = "INSERT INTO paths (id, idx, path) VALUES ($id, $index, $path)";
@@ -59,7 +60,7 @@ namespace FileManager.Scanner
         {
             try
             {
-                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
+                using var connection = new SQLiteConnection(Database.GetConnectionString("metadata.db"));
                 var cmd = connection.CreateCommand();
 
                 // should result in something like: WHERE folder=f0 OR folder=f1 OR folder=f2 ... with each one being a proper parameter

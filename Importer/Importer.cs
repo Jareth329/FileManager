@@ -31,7 +31,7 @@ namespace FileManager.Importer
                 int offset = 0, limit = Settings.MaxImportBatchSize;
                 string[] paths = new string[limit];
 
-                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "imports.db")}");
+                using var connection = new SQLiteConnection(Database.GetConnectionString("imports.db"));
                 SQLiteCommand cmd = connection.CreateCommand(), delete = connection.CreateCommand();
                 SQLiteParameter offsetParam = cmd.CreateParameter(), endpointParam = cmd.CreateParameter(), deleteEndpointParam = delete.CreateParameter();
 
@@ -164,7 +164,7 @@ namespace FileManager.Importer
         {
             try
             {
-                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
+                using var connection = new SQLiteConnection(Database.GetConnectionString("metadata.db"));
                 SQLiteCommand pathCmd = connection.CreateCommand(), commonCmd = connection.CreateCommand(), importCmd = connection.CreateCommand();
                 SQLiteParameter pathHashParam = pathCmd.CreateParameter(), folderParam = pathCmd.CreateParameter(), fileParam = pathCmd.CreateParameter(),
                     hashParam = commonCmd.CreateParameter(), sizeParam = commonCmd.CreateParameter(), creationParam = commonCmd.CreateParameter(),
@@ -236,7 +236,7 @@ namespace FileManager.Importer
         {
             try
             {
-                using var connection = new SQLiteConnection($"Data Source={Path.Combine(Settings.GetMetadataPath(), "metadata.db")}");
+                using var connection = new SQLiteConnection(Database.GetConnectionString("metadata.db"));
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = "SELECT COUNT(*) FROM imports WHERE id = $importId;";
                 cmd.Parameters.AddWithValue("$importId", importId);
