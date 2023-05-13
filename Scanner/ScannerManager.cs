@@ -60,7 +60,7 @@ namespace FileManager.Scanner
         public static void CancelPrescan() => Task.Run(Scanner.CancelPrescan);
 
         // called whenever user has finished setting the recursion settings for selected paths and is ready to begin prescan
-        public static void StartPrescan() => Task.Run(Scanner.Prescan);
+        public static void StartPrescan() => Scanner.Prescan();// Task.Run(Scanner.Prescan);
 
         // -------------------------------------------------------------------------------------------------- //
         //                                               Scan                                                 //
@@ -70,6 +70,6 @@ namespace FileManager.Scanner
         public static void CancelScan() => Task.Run(Scanner.CancelScan);
 
         // called whenever user has finished adjusting scan settings and is ready to begin scan
-        public static void StartScan() => Task.Run(Scanner.Scan);
+        public static void StartScan() => Scanner.Scan();// Task.Run(Scanner.Scan);
     }
 }

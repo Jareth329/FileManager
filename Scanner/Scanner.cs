@@ -76,7 +76,7 @@ namespace FileManager.Scanner
         {
             foreach (string folder in folders)
             {
-                // TryAdd() to avoid overwriting manual changes by user when importing duplicate folders
+                // TryAdd() to avoid overwriting manual changes by user when scanning duplicate folders
                 chosenFolders.TryAdd(folder.Replace('\\', '/'), -2);
             }
         }
@@ -98,7 +98,6 @@ namespace FileManager.Scanner
             scannedFolders.Clear();
             foreach (var folder in chosenFolders)
             {
-                Console.WriteLine(folder);
                 if (cancelling) return;
                 PrescanFolder(folder.Key, folder.Value);
             }
@@ -108,8 +107,13 @@ namespace FileManager.Scanner
                 // construct sqlite query from tempFolders
                 foreach (string folder in tempFolders)
                 {
-                    Console.WriteLine(folder);
+                    // temporary test
+                    scannedFolders[folder] = ScanAction.Import;
                 }
+
+                // construct ScannedFolders from results
+                // folders returned by sqlite query should be marked as Skip, others marked as Import)
+                // consider changing Import => Scan, Skip => Ignore
             }
             tempFolders.Clear();
 
@@ -232,6 +236,7 @@ namespace FileManager.Scanner
         {
             foreach (string file in files)
             {
+                Console.WriteLine(file);
                 if (cancelling) return;
                 if (!extensions.Contains(Path.GetExtension(file).ToUpperInvariant())) continue;
                 // only create FileInfo objects if filter is not set to default values
