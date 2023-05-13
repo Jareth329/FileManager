@@ -1,8 +1,11 @@
-﻿namespace FileManager.Core.Types
+﻿using FileManager.Core.Enums;
+
+namespace FileManager.Core.Types
 {
     internal sealed class ImageInfo
     {
         internal string Hash { get; set; } = string.Empty;
+        internal ImageType Type { get; set; } = ImageType.Error;
 
         internal ulong AverageHash { get; set; }
         internal ulong ColorHash { get; set; }
@@ -24,7 +27,6 @@
         internal byte Light { get; set; }
         internal byte Medium { get; set; }
         internal byte Dark { get; set; }
-
         internal byte Alpha { get; set; }
     }
 }

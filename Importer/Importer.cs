@@ -151,8 +151,8 @@ namespace FileManager.Importer
                 byte category = categoryLookup[meta.Type];
                 // unsure if animations will be stored in same table as images, but with extra data null for images, or extra in separate table, or if
                 // animations in general will be in a separate table
-                if (category == Category.Image) ImageImporter.Import(meta.Hash, path, meta.Type);
-                else if (category == Category.Animation) AnimationImporter.Import(meta.Hash, path, meta.Type);
+                if (category == Category.Image) ImageImporter.Import(meta.Hash, path);
+                else if (category == Category.Animation) AnimationImporter.Import(meta.Hash, path);
                 // handle others here once their importers are created, files with OTHER category will only be processed by the common importer
             }
         }

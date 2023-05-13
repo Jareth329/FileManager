@@ -24,12 +24,7 @@ namespace FileManager.Core
                     // performance concerns one way or the other, as I should not need to query between multiple concepts at once
                     // (ie imports and metadata))
 
-                    // common for all file types; sha256 hash, fileSize (bytes), fileCreationTime, fileLastWriteTime, fileFirstUploadTime, 
-                    //      metadataLastEditTime (mainly for tags I think), fileType (extension unless I can determine actual type like with images)
-                    //      note that for type, I will likely just insert the file into common with whatever extension it has, then update that
-                    //      value during the image import if the actual value does not match extension (a bit slower than doing it at once, but causes
-                    //      fewer issues overall and is more compatible with the idea of multiple importers)
-                    //      might also add more time variables (like lstup :: last upload time)
+                    // common for all file types; sha256 hash, fileSize (bytes), fileCreationTime, fileLastWriteTime, fileFirstUploadTime, fileCategory
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS common(hash TEXT PK, size INT, create INT, lastw INT, fstup INT, cat INT);";
                     cmd.ExecuteNonQuery();
 
@@ -52,13 +47,13 @@ namespace FileManager.Core
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS tags(hash TEXT FK, tagId INT FK, PK (hash, tagId))";
                     cmd.ExecuteNonQuery();
 
-                    // metadata specific to images; sha256 hash, [perceptual hashes]: averageHash, colorHash, differenceHash, perceptualHash, waveletHash,
-                    //      [colors]: red, green, blue, yellow, cyan, fuchsia/magenta, vivid, neutral, dull, light, medium, dark, alpha
-                    //      might add other tertiary colors like orange/brown/purple depending on the estimated database size increase
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS image(hash TEXT PK, avg INT, colr INT, dif INT, perc INT, wav INT, r INT, g INT, b INT, y INT, c INT, f INT, v INT, n INT, d INT, l INT, m INT, INT k, INT, a INT)";
+                    // metadata specific to images; sha256 hash, type (actual type of image, png/jpeg/etc) see Core.Enums.ImageType,
+                    //  (perceptual hashes): averageHash, colorHash, differenceHash, perceptualHash, waveletHash,
+                    //  (colors): red, green, blue, yellow, cyan, fuchsia/magenta, vivid, neutral, dull, light, medium, dark, alpha
+                    // might add other tertiary colors like orange/brown/purple depending on the estimated database size increase
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS image(hash TEXT PK, type INT, avg INT, colr INT, dif INT, perc INT, wav INT, r INT, g INT, b INT, y INT, c INT, f INT, v INT, n INT, d INT, l INT, m INT, INT k, INT, a INT)";
                     cmd.ExecuteNonQuery();
 
-                    // might be moved to a separate database file (will have to test how it affects performance at scale)
                     // id comes first in PK because that will be what I query by
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS imports(id INT, hash TEXT, PK (id, hash));";
                     cmd.ExecuteNonQuery();

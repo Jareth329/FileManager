@@ -109,12 +109,11 @@
             return hash;
         }
 
-        // type may not actually be needed because of MagickInfo
-        internal static void Import(string hash, string path, string type)
+        internal static void Import(string hash, string path)
         {
             // get thumbnail path
             // create & save thumbnail, return phashes and colors (ALL PYTHON)
-            // get magickInfo
+            // get magickInfo to determine dimensions and (more importantly) the actual image type
             // insert metadata into metadata/image table
         }
     }
