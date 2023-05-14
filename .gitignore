@@ -17,3 +17,4 @@ data_*/
 *.db-wal
 bin/
 lib/
+metadata/
