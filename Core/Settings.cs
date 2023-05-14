@@ -4,8 +4,9 @@ namespace FileManager.Core
 {
     internal static class Settings
     {
-        internal static string DefaultMetadataPath { get; set; } = string.Empty;
+        internal static string DefaultMetadataPath { get; set; } = "metadata";
         internal static string MetadataPath { get; set; } = string.Empty;
+        internal static bool UseDefaultMetadataPath { get; set; } = true;
 
         internal static sbyte MaxScanRecursionDepth { get; set; } = -1;
 
@@ -19,10 +20,7 @@ namespace FileManager.Core
 
         internal static bool SqliteUseSynchronousOff { get; set; } = false;
 
-        internal static string GetMetadataPath()
-        {
-            return MetadataPath;
-        }
+        internal static string GetMetadataPath() => (UseDefaultMetadataPath) ? DefaultMetadataPath : MetadataPath;
 
         internal static string GetSqliteSynchronous() => (SqliteUseSynchronousOff) ? "OFF" : "NORMAL";
     }
