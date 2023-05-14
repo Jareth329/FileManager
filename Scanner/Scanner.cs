@@ -35,8 +35,8 @@ namespace FileManager.Scanner
         internal static readonly HashSet<string> BlacklistedFileNames = new();
 
         // folders in chosenFolders should have their default case, but replace \ with /
-        private static readonly Dictionary<string, sbyte> chosenFolders = new();
-        private static readonly Dictionary<string, ScanAction> scannedFolders = new();
+        internal static readonly Dictionary<string, sbyte> ChosenFolders = new();
+        internal static readonly Dictionary<string, ScanAction> ScannedFolders = new();
         private static readonly HashSet<string> tempFolders = new();
         private static readonly HashSet<string> tempFiles = new();
         private static readonly HashSet<string> scannedFiles = new();
@@ -81,17 +81,17 @@ namespace FileManager.Scanner
             foreach (string folder in folders)
             {
                 // TryAdd() to avoid overwriting manual changes by user when scanning duplicate folders
-                chosenFolders.TryAdd(folder.Replace('\\', '/'), -2);
+                ChosenFolders.TryAdd(folder.Replace('\\', '/'), -2);
             }
         }
 
-        internal static void SetRecursionDepthOverride(string folder, sbyte recurDepth) => chosenFolders[folder.Replace('\\', '/')] = recurDepth;
+        internal static void SetRecursionDepthOverride(string folder, sbyte recurDepth) => ChosenFolders[folder.Replace('\\', '/')] = recurDepth;
 
         internal static void CancelPrescan()
         {
             cancelling = true;
-            chosenFolders.Clear();
-            scannedFolders.Clear();
+            ChosenFolders.Clear();
+            ScannedFolders.Clear();
             tempFolders.Clear();
             tempFiles.Clear();
         }
@@ -99,8 +99,8 @@ namespace FileManager.Scanner
         internal static void Prescan()
         {
             cancelling = false;
-            scannedFolders.Clear();
-            foreach (var folder in chosenFolders)
+            ScannedFolders.Clear();
+            foreach (var folder in ChosenFolders)
             {
                 if (cancelling) return;
                 PrescanFolder(folder.Key, folder.Value);
@@ -111,8 +111,8 @@ namespace FileManager.Scanner
                 var results = ScannerDatabase.QueryPreviouslyImportedPaths(tempFolders);    // folders that have been previously imported (IGNORE)
                 tempFolders.ExceptWith(results);                                            // folders that have NOT been previously imported (SCAN)
 
-                foreach (string importedFolder in results) scannedFolders[importedFolder] = ScanAction.Ignore;
-                foreach (string newFolder in tempFolders) scannedFolders[newFolder] = ScanAction.Scan;
+                foreach (string importedFolder in results) ScannedFolders[importedFolder] = ScanAction.Ignore;
+                foreach (string newFolder in tempFolders) ScannedFolders[newFolder] = ScanAction.Scan;
             }
             tempFolders.Clear();
 
@@ -152,10 +152,10 @@ namespace FileManager.Scanner
 
         private static void AddScannedFolder(string folder)
         {
-            if (IsBlacklisted(folder)) scannedFolders[folder] = ScanAction.Blacklist;
+            if (IsBlacklisted(folder)) ScannedFolders[folder] = ScanAction.Blacklist;
             // add to TempFolders to be filtered by sql query later
             else if (Settings.SkipPreviouslyImportedFolders) tempFolders.Add(folder);
-            else scannedFolders[folder] = ScanAction.Scan;
+            else ScannedFolders[folder] = ScanAction.Scan;
         }
 
         // pretty sure that docs said any negative number for MaxRecursionDepth would be interpreted as int.MaxValue, but that seems to be false
@@ -209,7 +209,7 @@ namespace FileManager.Scanner
             importId = Id.GetRandomUInt64();
 
             IterateFiles(tempFiles);
-            foreach (var folderKV in scannedFolders)
+            foreach (var folderKV in ScannedFolders)
             {
                 if (folderKV.Value == ScanAction.Scan)
                 {
