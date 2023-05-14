@@ -15,6 +15,7 @@ data_*/
 *.db
 *.db-shm
 *.db-wal
+*.old
 bin/
 lib/
 metadata/
