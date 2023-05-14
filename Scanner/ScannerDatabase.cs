@@ -46,6 +46,22 @@ namespace FileManager.Scanner
                 Console.WriteLine($"ScannerDatabase.Insert() : {sqle}");
             }
         }
+
+        internal static void Checkpoint()
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection(Database.GetConnectionString("imports.db")))
+                {
+                    var cmd = connection.CreateCommand();
+                    cmd.CommandText = "PRAGMA wal_checkpoint(FULL);";
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SQLiteException sqle)
+            {
+                Console.WriteLine($"ScannerDatabase.Checkpoint() : {sqle}");
             }
         }
 
