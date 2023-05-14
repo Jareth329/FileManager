@@ -15,6 +15,7 @@ namespace FileManager.Core
         {
             try
             {
+                Directory.CreateDirectory(Settings.GetMetadataPath());
                 using (var connMetadata = new SQLiteConnection(GetConnectionString("metadata.db")))
                 {
                     var cmd = connMetadata.CreateCommand();
@@ -86,7 +87,7 @@ namespace FileManager.Core
             }
             catch (SQLiteException sqle)
             {
-                Console.WriteLine(sqle);
+                Console.WriteLine($"Database.Create() : {sqle}");
             }
         }
     }
