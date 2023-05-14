@@ -101,7 +101,7 @@ namespace FileManager.Importer
             }
             catch (SQLiteException sqle)
             {
-                Console.WriteLine(sqle);
+                Console.WriteLine($"Importer.Import() : {sqle}");
             }
         }
 
@@ -213,7 +213,7 @@ namespace FileManager.Importer
             }
             catch (SQLiteException sqle)
             {
-                Console.WriteLine(sqle);
+                Console.WriteLine($"Importer.Insert() : {sqle}");
             }
         }
 
@@ -249,7 +249,7 @@ namespace FileManager.Importer
             }
             catch (SQLiteException sqle)
             {
-                Console.WriteLine(sqle);
+                Console.WriteLine($"Importer.UpdateSuccessCount() : {sqle}");
             }
         }
     }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.IO;
 using System.Text;
 
 namespace FileManager.Scanner
@@ -15,7 +14,6 @@ namespace FileManager.Scanner
         {
             try
             {
-
                 using (var connection = new SQLiteConnection(Database.GetConnectionString("imports.db")))
                 {
                     var cmd = connection.CreateCommand();
@@ -40,13 +38,14 @@ namespace FileManager.Scanner
                         cmd.ExecuteNonQuery();
                         TotalCount++;
                     }
-
                     transaction.Commit();
                 }
             }
             catch (SQLiteException sqle)
             {
-                Console.WriteLine(sqle);
+                Console.WriteLine($"ScannerDatabase.Insert() : {sqle}");
+            }
+        }
             }
         }
 
@@ -88,7 +87,7 @@ namespace FileManager.Scanner
             }
             catch (SQLiteException sqle)
             {
-                Console.WriteLine(sqle);
+                Console.WriteLine($"ScannerDatabase.QueryPreviouslyImportedPaths() : {sqle}");
                 return Array.Empty<string>();
             }
         }
