@@ -11,15 +11,15 @@
             internal ulong Perceptual = 0;
             internal ulong Wavelet = 0;
 
-            internal PerceptualHashes(string hashes)
+            internal PerceptualHashes(string mergedHashString)
             {
-                string[] _hashes = hashes.Split('?');
-                if (_hashes.Length == 4)
+                string[] hashes = mergedHashString.Split('?');
+                if (hashes.Length == 4)
                 {
-                    _ = ulong.TryParse(_hashes[0], out Average);
-                    _ = ulong.TryParse(_hashes[1], out Difference);
-                    _ = ulong.TryParse(_hashes[2], out Perceptual);
-                    _ = ulong.TryParse(_hashes[3], out Wavelet);
+                    _ = ulong.TryParse(hashes[0], out Average);
+                    _ = ulong.TryParse(hashes[1], out Difference);
+                    _ = ulong.TryParse(hashes[2], out Perceptual);
+                    _ = ulong.TryParse(hashes[3], out Wavelet);
                 }
             }
         }
