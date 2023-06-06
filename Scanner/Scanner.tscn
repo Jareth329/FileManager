@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://d18hbe2tvu83g"]
+[gd_scene load_steps=2 format=3 uid="uid://d18hbe2tvu83g"]
+
+[ext_resource type="Script" path="res://Scanner/test.gd" id="1_8iv8t"]
 
 [node name="scanner" type="Control"]
 layout_mode = 3
@@ -42,3 +44,73 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+
+[node name="vbox" type="VBoxContainer" parent="margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="hbox1" type="HBoxContainer" parent="margin/vbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="panel" type="PanelContainer" parent="margin/vbox/hbox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="label" type="Label" parent="margin/vbox/hbox1/panel"]
+layout_mode = 2
+text = "  Folders  to Prescan: "
+
+[node name="hsep1" type="HSeparator" parent="margin/vbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="margin" type="MarginContainer" parent="margin/vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+
+[node name="scroll" type="ScrollContainer" parent="margin/vbox/margin"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="vbox" type="VBoxContainer" parent="margin/vbox/margin/scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_8iv8t")
+
+[node name="hsep2" type="HSeparator" parent="margin/vbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="hbox2" type="HBoxContainer" parent="margin/vbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="autostart_scan" type="CheckButton" parent="margin/vbox/hbox2"]
+layout_mode = 2
+tooltip_text = "Should the program list all scanned folders and allow user to choose which to import."
+text = "  Autostart Scan  "
+
+[node name="autostart_import" type="CheckButton" parent="margin/vbox/hbox2"]
+layout_mode = 2
+tooltip_text = "Should program allow user to alter import settings or rescan after scan completion."
+text = "  Autostart Import  "
+
+[node name="skip_previous" type="CheckButton" parent="margin/vbox/hbox2"]
+layout_mode = 2
+tooltip_text = "Should program check for and skip folders that have been imported before. Note that turning this on will make Scan slower, but might save some time during Import."
+text = "  Skip Previously Imported Folders  "
+
+[node name="spacer" type="Control" parent="margin/vbox/hbox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="start_prescan" type="Button" parent="margin/vbox/hbox2"]
+layout_mode = 2
+text = "  Start Prescan  "

@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://kkdt3bdk53yd"]
+
+[ext_resource type="Script" path="res://Scanner/ScanActionUI.cs" id="1_iep0u"]
+
+[node name="scan_action" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_iep0u")
+
+[node name="bg_color" type="ColorRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.164706, 0.164706, 0.164706, 1)
+
+[node name="hbox" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="label" type="Label" parent="hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "  C:/example/folder/path"
+vertical_alignment = 1
+
+[node name="options" type="OptionButton" parent="hbox"]
+self_modulate = Color(1, 1, 1, 0.764706)
+layout_mode = 2
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = "Scan"
+popup/item_0/id = 0
+popup/item_1/text = "Ignore"
+popup/item_1/id = 1
+popup/item_2/text = "Blacklist"
+popup/item_2/id = 2
