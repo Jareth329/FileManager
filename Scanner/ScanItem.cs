@@ -2,9 +2,9 @@ using Godot;
 
 namespace FileManager.Scanner
 {
-    public partial class ScanActionUI : MarginContainer
+    public partial class ScanItem : MarginContainer
     {
-        private static readonly Color lightGrey = new Color("595959");
+        private static readonly Color lightGrey = new Color("454545");
         private static readonly Color darkGrey = new Color("333333");
         private static int index;
 
