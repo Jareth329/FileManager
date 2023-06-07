@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://kkdt3bdk53yd"]
 
-[ext_resource type="Script" path="res://Scanner/ScanItem.cs" id="1_2c487"]
+[ext_resource type="Script" path="res://Scanner/ScanItem.cs" id="1_yx7xo"]
 
 [node name="scan_action" type="MarginContainer"]
 anchors_preset = 15
@@ -9,7 +9,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_2c487")
+script = ExtResource("1_yx7xo")
 
 [node name="bg_color" type="ColorRect" parent="."]
 layout_mode = 2
@@ -29,6 +29,7 @@ vertical_alignment = 1
 
 [node name="recursion_depth" type="SpinBox" parent="hbox"]
 self_modulate = Color(1, 1, 1, 0.764706)
+custom_minimum_size = Vector2(84, 0)
 layout_mode = 2
 min_value = -1.0
 max_value = 127.0

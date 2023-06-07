@@ -30,3 +30,7 @@ window/stretch/aspect="ignore"
 [dotnet]
 
 project/assembly_name="File Manager"
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
