@@ -51,6 +51,89 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
+[node name="vbox" type="VBoxContainer" parent="margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="settings_ribbon" type="Control" parent="margin/vbox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="color_temp" type="ColorRect" parent="margin/vbox/settings_ribbon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.745098, 0.666667, 0.564706, 1)
+
+[node name="tabs_ribbon" type="Control" parent="margin/vbox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="color_temp" type="ColorRect" parent="margin/vbox/tabs_ribbon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.454902, 0.392157, 0.745098, 1)
+
+[node name="hbox" type="HBoxContainer" parent="margin/vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="color_temp1" type="ColorRect" parent="margin/vbox/hbox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.592157, 0.741176, 0.745098, 1)
+
+[node name="hsplit" type="HSplitContainer" parent="margin/vbox/hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = -240
+
+[node name="left" type="VSplitContainer" parent="margin/vbox/hbox/hsplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="color_temp" type="ColorRect" parent="margin/vbox/hbox/hsplit/left"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.745098, 0.552941, 0.603922, 1)
+
+[node name="right" type="VSplitContainer" parent="margin/vbox/hbox/hsplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+split_offset = 240
+
+[node name="color_temp1" type="ColorRect" parent="margin/vbox/hbox/hsplit/right"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.631373, 0.745098, 0.658824, 1)
+
+[node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox/hsplit/right"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.694118, 0.658824, 0.745098, 1)
+
+[node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.67451, 0.745098, 0.415686, 1)
+
 [node name="scanner" parent="." instance=ExtResource("2_7ju6b")]
 visible = false
 layout_mode = 1
