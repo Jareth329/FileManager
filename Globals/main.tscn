@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bmf2ktvy6p64h"]
 
 [ext_resource type="Script" path="res://Globals/Main.cs" id="1_he7wl"]
-[ext_resource type="PackedScene" uid="uid://d18hbe2tvu83g" path="res://Scanner/Scanner.tscn" id="2_7ju6b"]
+[ext_resource type="PackedScene" uid="uid://d18hbe2tvu83g" path="res://Scanner/scanner.tscn" id="2_7ju6b"]
 [ext_resource type="Script" path="res://Scanner/ScannerUI.cs" id="3_sy72i"]
 
 [node name="main" type="Control"]
