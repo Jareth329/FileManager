@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d18hbe2tvu83g"]
 
 [ext_resource type="Script" path="res://Scanner/scanner_ui.gd" id="1_2gs53"]
-[ext_resource type="Script" path="res://Scanner/test.gd" id="1_8iv8t"]
+[ext_resource type="Script" path="res://Scanner/scan_list.gd" id="2_agp5h"]
 
 [node name="scanner" type="Control"]
 layout_mode = 3
@@ -98,7 +98,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1_8iv8t")
+script = ExtResource("2_agp5h")
 
 [node name="advanced" type="MarginContainer" parent="margin/vbox"]
 visible = false
