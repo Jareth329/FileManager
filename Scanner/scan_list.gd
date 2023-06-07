@@ -13,7 +13,7 @@ func add_rows(paths:Array) -> void:
 	for path in paths:
 		var r = row.instantiate()
 		var label:Label = r.get_node("hbox/label")
-		label.text = "  " + path
+		label.text = "  " + path.replace("\\", "/")
 		var spinbox:SpinBox = r.get_node("hbox/recursion_depth")
 		spinbox.value = default_depth
 		self.add_child(r)
