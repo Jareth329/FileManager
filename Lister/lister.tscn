@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8k4xnudobnqb"]
+
+[ext_resource type="Script" path="res://Lister/note.gd" id="1_bxfp7"]
+
+[node name="lister" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="vbox" type="VBoxContainer" parent="margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="thumbnails" type="ItemList" parent="margin/vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+select_mode = 1
+allow_rmb_select = true
+max_columns = 200
+same_column_width = true
+fixed_column_width = 240
+icon_mode = 0
+icon_scale = 0.8
+fixed_icon_size = Vector2i(240, 240)
+script = ExtResource("1_bxfp7")
+
+[node name="page_buttons" type="HFlowContainer" parent="margin/vbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="prev_page" type="Button" parent="margin/vbox/page_buttons"]
+layout_mode = 2
+text = "  Prev  "
+
+[node name="first_page" type="Button" parent="margin/vbox/page_buttons"]
+layout_mode = 2
+text = "  First  "
+
+[node name="hbox" type="HBoxContainer" parent="margin/vbox/page_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="current_page" type="SpinBox" parent="margin/vbox/page_buttons/hbox"]
+layout_mode = 2
+min_value = 1.0
+max_value = 1.0
+value = 1.0
+alignment = 1
+
+[node name="total_pages" type="Label" parent="margin/vbox/page_buttons/hbox"]
+layout_mode = 2
+text = "/ 1"
+
+[node name="last_page" type="Button" parent="margin/vbox/page_buttons"]
+layout_mode = 2
+text = "  Last  "
+
+[node name="next_page" type="Button" parent="margin/vbox/page_buttons"]
+layout_mode = 2
+text = "  Next  "

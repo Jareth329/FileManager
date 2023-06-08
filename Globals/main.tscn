@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmf2ktvy6p64h"]
+[gd_scene load_steps=6 format=3 uid="uid://bmf2ktvy6p64h"]
 
 [ext_resource type="Script" path="res://Globals/Main.cs" id="1_he7wl"]
 [ext_resource type="PackedScene" uid="uid://d18hbe2tvu83g" path="res://Scanner/scanner.tscn" id="2_7ju6b"]
 [ext_resource type="Texture2D" uid="uid://yh475a0ve4yd" path="res://Assets/icon.svg" id="2_vtqo8"]
+[ext_resource type="PackedScene" uid="uid://c8k4xnudobnqb" path="res://Lister/lister.tscn" id="3_ipnl5"]
 [ext_resource type="Script" path="res://Scanner/ScannerUI.cs" id="3_sy72i"]
 
 [node name="main" type="Control"]
@@ -60,7 +61,7 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="color_temp" type="ColorRect" parent="margin/vbox/settings_ribbon"]
+[node name="panel" type="PanelContainer" parent="margin/vbox/settings_ribbon"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,7 +69,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.745098, 0.666667, 0.564706, 1)
+
+[node name="margin" type="MarginContainer" parent="margin/vbox/settings_ribbon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="hbox" type="HBoxContainer" parent="margin/vbox/settings_ribbon/margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="file_button" type="Button" parent="margin/vbox/settings_ribbon/margin/hbox"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+text = "File"
+
+[node name="view_button" type="Button" parent="margin/vbox/settings_ribbon/margin/hbox"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+text = "View"
+
+[node name="settings_button" type="Button" parent="margin/vbox/settings_ribbon/margin/hbox"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+text = "Settings"
 
 [node name="tabs_ribbon" type="Control" parent="margin/vbox"]
 custom_minimum_size = Vector2(0, 40)
@@ -90,28 +122,80 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="color_temp1" type="ColorRect" parent="margin/vbox/hbox"]
+[node name="vbox1" type="VBoxContainer" parent="margin/vbox/hbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="color_temp1" type="ColorRect" parent="margin/vbox/hbox/vbox1"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.592157, 0.741176, 0.745098, 1)
+
+[node name="vertical_newline" type="Label" parent="margin/vbox/hbox/vbox1/color_temp1"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Q
+U
+E
+R
+Y"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vertical_rotate" type="Label" parent="margin/vbox/hbox/vbox1/color_temp1"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 324.0
+offset_right = 284.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "QUERY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox/vbox1"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.592157, 0.741176, 0.745098, 1)
+
+[node name="color_temp3" type="ColorRect" parent="margin/vbox/hbox/vbox1"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0.592157, 0.741176, 0.745098, 1)
 
 [node name="hsplit" type="HSplitContainer" parent="margin/vbox/hbox"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 split_offset = -240
 
 [node name="left" type="VSplitContainer" parent="margin/vbox/hbox/hsplit"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="color_temp" type="ColorRect" parent="margin/vbox/hbox/hsplit/left"]
+[node name="lister" parent="margin/vbox/hbox/hsplit/left" instance=ExtResource("3_ipnl5")]
 layout_mode = 2
-mouse_filter = 2
-color = Color(0.745098, 0.552941, 0.603922, 1)
 
 [node name="right" type="VSplitContainer" parent="margin/vbox/hbox/hsplit"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 split_offset = 240
@@ -122,21 +206,84 @@ size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0.631373, 0.745098, 0.658824, 1)
 
+[node name="center" type="CenterContainer" parent="margin/vbox/hbox/hsplit/right/color_temp1"]
+clip_contents = true
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="warning" type="Label" parent="margin/vbox/hbox/hsplit/right/color_temp1/center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "Viewer"
+
 [node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox/hsplit/right"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0.694118, 0.658824, 0.745098, 1)
 
-[node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox"]
+[node name="center" type="CenterContainer" parent="margin/vbox/hbox/hsplit/right/color_temp2"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="warning" type="Label" parent="margin/vbox/hbox/hsplit/right/color_temp2/center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "Tagger || Metadata"
+
+[node name="vbox2" type="VBoxContainer" parent="margin/vbox/hbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="color_temp1" type="ColorRect" parent="margin/vbox/hbox/vbox2"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0.67451, 0.745098, 0.415686, 1)
 
-[node name="scanner" parent="." instance=ExtResource("2_7ju6b")]
-visible = false
+[node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox/vbox2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.67451, 0.745098, 0.415686, 1)
+
+[node name="color_temp3" type="ColorRect" parent="margin/vbox/hbox/vbox2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.67451, 0.745098, 0.415686, 1)
+
+[node name="margin_popup" type="MarginContainer" parent="."]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="scanner" parent="margin_popup" instance=ExtResource("2_7ju6b")]
+visible = false
+layout_mode = 2
 script = ExtResource("3_sy72i")
 
 [node name="Label" type="Label" parent="."]
@@ -146,3 +293,83 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="warning" type="Label" parent="."]
+layout_mode = 2
+offset_left = -331.0
+offset_top = 211.0
+offset_right = -9.0
+offset_bottom = 276.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "Query Panel =>"
+
+[node name="warning7" type="Label" parent="."]
+layout_mode = 2
+offset_left = -809.0
+offset_top = 893.0
+offset_right = -6.0
+offset_bottom = 958.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "In Progress and Queryable Imports =>"
+
+[node name="warning8" type="Label" parent="."]
+layout_mode = 2
+offset_left = -752.0
+offset_top = 550.0
+offset_right = 40.0
+offset_bottom = 615.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "In Progress and Queryable Scans =>"
+
+[node name="warning2" type="Label" parent="."]
+layout_mode = 2
+offset_left = -398.0
+offset_top = -9.0
+offset_right = -4.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "Settings Ribbon =>"
+
+[node name="warning3" type="Label" parent="."]
+layout_mode = 2
+offset_left = 1926.0
+offset_top = 39.0
+offset_right = 2248.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "<= Tab Ribbon"
+
+[node name="warning4" type="Label" parent="."]
+layout_mode = 2
+offset_left = 1927.0
+offset_top = 210.0
+offset_right = 2489.0
+offset_bottom = 275.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "<= Shaders Slide-out Panel"
+
+[node name="warning5" type="Label" parent="."]
+layout_mode = 2
+offset_left = 1928.0
+offset_top = 873.0
+offset_right = 2490.0
+offset_bottom = 938.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "<= Tagging Slide-out Panel?"
+
+[node name="warning6" type="Label" parent="."]
+layout_mode = 2
+offset_left = 1932.0
+offset_top = 570.0
+offset_right = 2494.0
+offset_bottom = 635.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "<= Tagging Slide-out Panel?"
