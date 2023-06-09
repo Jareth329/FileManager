@@ -37,6 +37,43 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 mouse_filter = 2
 
+[node name="sort_buttons" type="HFlowContainer" parent="margin/vbox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="sort_by" type="OptionButton" parent="margin/vbox/sort_buttons"]
+layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "Hash"
+popup/item_0/id = 0
+popup/item_1/text = "Path"
+popup/item_1/id = 1
+popup/item_2/text = "Name"
+popup/item_2/id = 2
+popup/item_3/text = "Size"
+popup/item_3/id = 3
+
+[node name="order_by" type="OptionButton" parent="margin/vbox/sort_buttons"]
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Ascending"
+popup/item_0/id = 0
+popup/item_1/text = "Descending"
+popup/item_1/id = 1
+popup/item_2/text = "Random"
+popup/item_2/id = 2
+
+[node name="space" type="Control" parent="margin/vbox/sort_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="select_all" type="Button" parent="margin/vbox/sort_buttons"]
+layout_mode = 2
+text = "  Select All  "
+
 [node name="thumbnails" type="ItemList" parent="margin/vbox"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -78,6 +115,8 @@ alignment = 1
 [node name="total_pages" type="Label" parent="margin/vbox/page_buttons/hbox"]
 layout_mode = 2
 text = "/ 1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="last_page" type="Button" parent="margin/vbox/page_buttons"]
 layout_mode = 2

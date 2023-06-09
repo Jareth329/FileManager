@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmf2ktvy6p64h"]
+[gd_scene load_steps=7 format=3 uid="uid://bmf2ktvy6p64h"]
 
 [ext_resource type="Script" path="res://Globals/Main.cs" id="1_he7wl"]
 [ext_resource type="PackedScene" uid="uid://d18hbe2tvu83g" path="res://Scanner/scanner.tscn" id="2_7ju6b"]
 [ext_resource type="Texture2D" uid="uid://yh475a0ve4yd" path="res://Assets/icon.svg" id="2_vtqo8"]
 [ext_resource type="PackedScene" uid="uid://c8k4xnudobnqb" path="res://Lister/lister.tscn" id="3_ipnl5"]
 [ext_resource type="Script" path="res://Scanner/ScannerUI.cs" id="3_sy72i"]
+[ext_resource type="PackedScene" uid="uid://b2dt855nsj02v" path="res://Viewer/viewer.tscn" id="4_117d1"]
 
 [node name="main" type="Control"]
 layout_mode = 3
@@ -24,7 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.219608, 0.211765, 0.231373, 1)
+color = Color(0.482353, 0.6, 0.482353, 1)
 
 [node name="bg_image" type="TextureRect" parent="."]
 visible = false
@@ -200,26 +201,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 split_offset = 240
 
-[node name="color_temp1" type="ColorRect" parent="margin/vbox/hbox/hsplit/right"]
+[node name="viewer" parent="margin/vbox/hbox/hsplit/right" instance=ExtResource("4_117d1")]
 layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-color = Color(0.631373, 0.745098, 0.658824, 1)
-
-[node name="center" type="CenterContainer" parent="margin/vbox/hbox/hsplit/right/color_temp1"]
-clip_contents = true
-layout_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="warning" type="Label" parent="margin/vbox/hbox/hsplit/right/color_temp1/center"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 44
-text = "Viewer"
 
 [node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox/hsplit/right"]
 layout_mode = 2
