@@ -21,6 +21,9 @@ namespace FileManager.Core
 
         internal static bool SqliteUseSynchronousOff { get; set; } = true;
 
+        internal static bool EnableFullscreenBackground { get; set; } = true;
+        internal static int FullscreenBackgroundColor { get; set; } = 0;
+
         internal static string GetMetadataPath() => (UseDefaultMetadataPath) ? DefaultMetadataPath : MetadataPath;
 
         internal static string GetSqliteSynchronous() => (SqliteUseSynchronousOff) ? "OFF" : "NORMAL";
