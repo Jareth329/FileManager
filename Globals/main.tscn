@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmf2ktvy6p64h"]
+[gd_scene load_steps=9 format=3 uid="uid://bmf2ktvy6p64h"]
 
 [ext_resource type="Script" path="res://Globals/main.gd" id="1_s85bm"]
 [ext_resource type="PackedScene" uid="uid://d18hbe2tvu83g" path="res://Scanner/scanner.tscn" id="2_7ju6b"]
+[ext_resource type="PackedScene" uid="uid://dkkof0ysa08fu" path="res://Viewer/viewer_viewport.tscn" id="2_ipgmk"]
 [ext_resource type="Texture2D" uid="uid://yh475a0ve4yd" path="res://Assets/icon.svg" id="2_vtqo8"]
 [ext_resource type="PackedScene" uid="uid://c8k4xnudobnqb" path="res://Lister/lister.tscn" id="3_ipnl5"]
 [ext_resource type="Script" path="res://Scanner/ScannerUI.cs" id="3_sy72i"]
@@ -18,15 +19,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_s85bm")
 
-[node name="bg_color" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.701961, 0.682353, 0.682353, 1)
+[node name="viewport" parent="." instance=ExtResource("2_ipgmk")]
 
 [node name="bg_image" type="TextureRect" parent="."]
 visible = false

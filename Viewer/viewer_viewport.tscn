@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkkof0ysa08fu"]
+
+[ext_resource type="Script" path="res://Viewer/viewer_viewport.gd" id="1_ersjv"]
+[ext_resource type="Texture2D" uid="uid://yh475a0ve4yd" path="res://Assets/icon.svg" id="1_hxxrv"]
+
+[node name="viewport" type="SubViewport"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(3840, 2160)
+render_target_update_mode = 4
+script = ExtResource("1_ersjv")
+
+[node name="displays" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 3840.0
+offset_bottom = 2160.0
+mouse_filter = 2
+
+[node name="image_single" type="TextureRect" parent="displays"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_hxxrv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="camera" type="Camera2D" parent="displays"]
+position = Vector2(1920, 1080)
+ignore_rotation = false

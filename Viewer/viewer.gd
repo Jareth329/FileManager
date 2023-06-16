@@ -9,6 +9,11 @@ extends Control
 @onready var flip_horizontal:Button = $margin/vbox/panel/margin/hflow/flip_horizontal
 @onready var flip_vertical:Button = $margin/vbox/panel/margin/hflow/flip_vertical
 
+# note: currently flip v/h flip display, not displays/image_single
+#	the result of this is that it will always flip horizontally/vertically
+#	relative to the monitor, not relative to the image itself; this might be useful,
+#	but I should probably allow both functionalities, and allow user to toggle which with CTRL or ALT
+
 # changed to InputMap to prepare for allowing remapping buttons
 func _unhandled_input(_event:InputEvent) -> void:
 	if Input.is_action_just_pressed("viewer_fullscreen"):
@@ -24,7 +29,7 @@ func _on_rotation_display_value_changed(value:int) -> void:
 
 func _on_rotation_value_changed(value:int) -> void: 
 	rotation_spinbox.value = value
-	Signals.rotation_changed.emit()
+	Signals.rotation_changed.emit(value)
 
 # these will eventually be textureButtons with left/right and up/down arrows
 #	when off the icons will be outlined, when on they will be filled in
