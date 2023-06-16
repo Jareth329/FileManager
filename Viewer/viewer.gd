@@ -4,8 +4,8 @@ extends Control
 @onready var vbox:VBoxContainer = $margin/vbox
 @onready var ui_ribbon:PanelContainer = $margin/vbox/panel
 @onready var display:TextureRect = $margin/vbox/display
-@onready var rotation_slider:HSlider = $margin/vbox/panel/hflow/vbox/rotation
-@onready var rotation_spinbox:SpinBox = $margin/vbox/panel/hflow/rotation_display
+@onready var rotation_slider:HSlider = $margin/vbox/panel/margin/hflow/vbox/rotation
+@onready var rotation_spinbox:SpinBox = $margin/vbox/panel/margin/hflow/rotation_display
 
 # note: I can change the h/v flip buttons to normal buttons and store boolean variables to keep track of state to make them look cleaner
 # 	BUT I will need to also change the button color or something when it is active so user knows if image is flipped or not

@@ -26,7 +26,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.482353, 0.6, 0.482353, 1)
+color = Color(0.701961, 0.682353, 0.682353, 1)
 
 [node name="bg_image" type="TextureRect" parent="."]
 visible = false
@@ -133,7 +133,7 @@ custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.592157, 0.741176, 0.745098, 1)
+color = Color(0.133333, 0.458824, 0.329412, 1)
 
 [node name="vertical_newline" type="Label" parent="margin/vbox/hbox/vbox1/color_temp1"]
 layout_mode = 1
@@ -172,14 +172,14 @@ custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.592157, 0.741176, 0.745098, 1)
+color = Color(0.133333, 0.458824, 0.329412, 1)
 
 [node name="color_temp3" type="ColorRect" parent="margin/vbox/hbox/vbox1"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.592157, 0.741176, 0.745098, 1)
+color = Color(0.133333, 0.458824, 0.329412, 1)
 
 [node name="hsplit" type="HSplitContainer" parent="margin/vbox/hbox"]
 clip_contents = true
@@ -209,7 +209,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.694118, 0.658824, 0.745098, 1)
+color = Color(0.596078, 0.219608, 0.294118, 1)
 
 [node name="center" type="CenterContainer" parent="margin/vbox/hbox/hsplit/right/color_temp2"]
 clip_contents = true
@@ -236,21 +236,21 @@ custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.67451, 0.745098, 0.415686, 1)
+color = Color(0.470588, 0.0862745, 0.266667, 1)
 
 [node name="color_temp2" type="ColorRect" parent="margin/vbox/hbox/vbox2"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.67451, 0.745098, 0.415686, 1)
+color = Color(0.470588, 0.0862745, 0.266667, 1)
 
 [node name="color_temp3" type="ColorRect" parent="margin/vbox/hbox/vbox2"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.67451, 0.745098, 0.415686, 1)
+color = Color(0.470588, 0.0862745, 0.266667, 1)
 
 [node name="margin_popup" type="MarginContainer" parent="."]
 layout_mode = 1
