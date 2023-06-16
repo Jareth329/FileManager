@@ -1,6 +1,7 @@
 ﻿using FileManager.Core;
 using FileManager.Core.Extensions;
 using Godot;
+using System.IO;
 
 namespace FileManager.Globals
 {
@@ -22,5 +23,9 @@ namespace FileManager.Globals
         public void SetVsplitOffsetLeft(int offset) => Settings.VsplitOffsetLeft = offset;
         public int GetVsplitOffsetRight() => Settings.VsplitOffsetRight;
         public void SetVsplitOffsetRight(int offset) => Settings.VsplitOffsetRight = offset;
+
+        public string GetMetadataPath() => Settings.GetMetadataPath();
+        public string GetThumbnailPath() => Settings.GetThumbnailPath();
+
     }
 }

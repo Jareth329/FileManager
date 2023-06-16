@@ -15,6 +15,9 @@ var dragging:bool = false
 var drag_speed:float = 1.5
 var drag_step:float = 0.4
 
+# also need to add settings for which filtering mode to use; though those will likely
+# be part of the 'Shaders' side panel
+
 func initialize(cam:Camera2D, viewport_display:TextureRect) -> void:
 	image_single = viewport_display
 	camera = cam
