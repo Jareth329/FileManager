@@ -2,7 +2,8 @@ extends VBoxContainer
 
 const row:PackedScene = preload("res://Scanner/scan_item.tscn")
 
-func _ready() -> void: get_tree().root.files_dropped.connect(add_rows)
+func _ready() -> void: 
+	get_tree().root.files_dropped.connect(add_rows)
 
 # also need to send paths to c#, but that will probably be done elsewhere with an additional signal connection
 # might even do it on the c# side if I can
