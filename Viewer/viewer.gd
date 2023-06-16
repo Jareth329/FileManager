@@ -11,7 +11,7 @@ extends Control
 # 	BUT I will need to also change the button color or something when it is active so user knows if image is flipped or not
 
 # changed to InputMap to prepare for allowing remapping buttons
-func _unhandled_input(event:InputEvent) -> void:
+func _unhandled_input(_event:InputEvent) -> void:
 	if Input.is_action_just_pressed("viewer_fullscreen"):
 		_on_fullscreen_pressed()
 	if Input.is_action_just_pressed("viewer_hide_ui"):
