@@ -26,6 +26,8 @@ func _on_rotation_value_changed(value:int) -> void:
 	rotation_spinbox.value = value
 	Signals.rotation_changed.emit()
 
+# these will eventually be textureButtons with left/right and up/down arrows
+#	when off the icons will be outlined, when on they will be filled in
 func _on_flip_horizontal_pressed() -> void:
 	display.flip_h = !display.flip_h
 	if display.flip_h: flip_horizontal.text = "  Flip H: ON  "
