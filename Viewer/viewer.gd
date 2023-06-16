@@ -6,9 +6,8 @@ extends Control
 @onready var display:TextureRect = $margin/vbox/display
 @onready var rotation_slider:HSlider = $margin/vbox/panel/margin/hflow/vbox/rotation
 @onready var rotation_spinbox:SpinBox = $margin/vbox/panel/margin/hflow/rotation_display
-
-# note: I can change the h/v flip buttons to normal buttons and store boolean variables to keep track of state to make them look cleaner
-# 	BUT I will need to also change the button color or something when it is active so user knows if image is flipped or not
+@onready var flip_horizontal:Button = $margin/vbox/panel/margin/hflow/flip_horizontal
+@onready var flip_vertical:Button = $margin/vbox/panel/margin/hflow/flip_vertical
 
 # changed to InputMap to prepare for allowing remapping buttons
 func _unhandled_input(_event:InputEvent) -> void:
@@ -27,11 +26,15 @@ func _on_rotation_value_changed(value:int) -> void:
 	rotation_spinbox.value = value
 	Signals.rotation_changed.emit()
 
-func _on_flip_horizontal_toggled(button_pressed:bool) -> void:
-	display.flip_h = button_pressed
+func _on_flip_horizontal_pressed() -> void:
+	display.flip_h = !display.flip_h
+	if display.flip_h: flip_horizontal.text = "  Flip H: ON  "
+	else: flip_horizontal.text = "  Flip H: OFF  "
 
-func _on_flip_vertical_toggled(button_pressed:bool) -> void:
-	display.flip_v = button_pressed
+func _on_flip_vertical_pressed() -> void:
+	display.flip_v = !display.flip_v
+	if display.flip_v: flip_vertical.text = "  Flip V: ON  "
+	else: flip_vertical.text = "  Flip V: OFF  "
 
 func _on_fullscreen_pressed() -> void:
 	Signals.fullscreen_viewer.emit(vbox, margin)

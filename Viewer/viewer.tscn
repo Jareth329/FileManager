@@ -114,17 +114,17 @@ custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="flip_horizontal" type="CheckButton" parent="margin/vbox/panel/margin/hflow"]
+[node name="flip_horizontal" type="Button" parent="margin/vbox/panel/margin/hflow"]
 layout_mode = 2
-text = "  Flip Horizontal  "
+text = "  Flip H: OFF  "
 
-[node name="flip_vertical" type="CheckButton" parent="margin/vbox/panel/margin/hflow"]
+[node name="flip_vertical" type="Button" parent="margin/vbox/panel/margin/hflow"]
 layout_mode = 2
-text = "  Flip Vertical  "
+text = "  Flip V: OFF  "
 
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/hide_ui" to="." method="_on_hide_ui_pressed"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/fullscreen" to="." method="_on_fullscreen_pressed"]
 [connection signal="value_changed" from="margin/vbox/panel/margin/hflow/vbox/rotation" to="." method="_on_rotation_value_changed"]
 [connection signal="value_changed" from="margin/vbox/panel/margin/hflow/rotation_display" to="." method="_on_rotation_display_value_changed"]
-[connection signal="toggled" from="margin/vbox/panel/margin/hflow/flip_horizontal" to="." method="_on_flip_horizontal_toggled"]
-[connection signal="toggled" from="margin/vbox/panel/margin/hflow/flip_vertical" to="." method="_on_flip_vertical_toggled"]
+[connection signal="pressed" from="margin/vbox/panel/margin/hflow/flip_horizontal" to="." method="_on_flip_horizontal_pressed"]
+[connection signal="pressed" from="margin/vbox/panel/margin/hflow/flip_vertical" to="." method="_on_flip_vertical_pressed"]
