@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2dt855nsj02v"]
+[gd_scene load_steps=3 format=3 uid="uid://b2dt855nsj02v"]
 
 [ext_resource type="Script" path="res://Viewer/viewer.gd" id="1_hjx4j"]
+[ext_resource type="Script" path="res://Viewer/display.gd" id="2_ccmwp"]
 
 [node name="viewer" type="Control"]
 layout_mode = 3
@@ -46,6 +47,7 @@ layout_mode = 2
 size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 6
+script = ExtResource("2_ccmwp")
 
 [node name="panel" type="PanelContainer" parent="margin/vbox"]
 layout_mode = 2
@@ -120,6 +122,7 @@ text = "  Flip H: OFF  "
 layout_mode = 2
 text = "  Flip V: OFF  "
 
+[connection signal="gui_input" from="margin/vbox/display" to="margin/vbox/display" method="_on_gui_input"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/hide_ui" to="." method="_on_hide_ui_pressed"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/fullscreen" to="." method="_on_fullscreen_pressed"]
 [connection signal="value_changed" from="margin/vbox/panel/margin/hflow/vbox/rotation" to="." method="_on_rotation_value_changed"]

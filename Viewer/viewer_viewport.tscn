@@ -33,3 +33,10 @@ stretch_mode = 5
 [node name="camera" type="Camera2D" parent="displays"]
 position = Vector2(1920, 1080)
 ignore_rotation = false
+
+[node name="shaders" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 3840.0
+offset_bottom = 2160.0
+mouse_filter = 2
