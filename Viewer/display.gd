@@ -5,6 +5,7 @@ var camera:Camera2D
 var default_camera_zoom:Vector2
 var default_camera_offset:Vector2
 
+# all of these should be in Settings/SettingsAccess (including the drag variables)
 var zoom_to_point:bool = false
 var zoom_step:float = 0.05
 var zoom_max:float = 16
@@ -32,6 +33,7 @@ func _on_gui_input(event:InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			if zoom_to_point: zoom_point(-zoom_step, event.position)
 			else: zoom_center(-zoom_step)
+		# previously I have used an else condition for this which also allows extra mouse buttons and middle mouse to be used
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			dragging = true
 		elif event.button_index == MOUSE_BUTTON_RIGHT:

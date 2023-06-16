@@ -115,12 +115,14 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="flip_horizontal" type="Button" parent="margin/vbox/panel/margin/hflow"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-text = "  Flip H: OFF  "
+text = "Flip H: OFF"
 
 [node name="flip_vertical" type="Button" parent="margin/vbox/panel/margin/hflow"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-text = "  Flip V: OFF  "
+text = "Flip V: OFF"
 
 [connection signal="gui_input" from="margin/vbox/display" to="margin/vbox/display" method="_on_gui_input"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/hide_ui" to="." method="_on_hide_ui_pressed"]
