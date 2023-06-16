@@ -87,7 +87,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="rotation" type="HSlider" parent="margin/vbox/panel/margin/hflow/vbox"]
+[node name="rotation_slider" type="HSlider" parent="margin/vbox/panel/margin/hflow/vbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 360.0
@@ -104,7 +104,7 @@ text = "  Rotation  "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="rotation_display" type="SpinBox" parent="margin/vbox/panel/margin/hflow"]
+[node name="rotation_spinbox" type="SpinBox" parent="margin/vbox/panel/margin/hflow"]
 layout_mode = 2
 max_value = 360.0
 step = 5.0
@@ -125,7 +125,7 @@ text = "  Flip V: OFF  "
 [connection signal="gui_input" from="margin/vbox/display" to="margin/vbox/display" method="_on_gui_input"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/hide_ui" to="." method="_on_hide_ui_pressed"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/fullscreen" to="." method="_on_fullscreen_pressed"]
-[connection signal="value_changed" from="margin/vbox/panel/margin/hflow/vbox/rotation" to="." method="_on_rotation_value_changed"]
-[connection signal="value_changed" from="margin/vbox/panel/margin/hflow/rotation_display" to="." method="_on_rotation_display_value_changed"]
+[connection signal="value_changed" from="margin/vbox/panel/margin/hflow/vbox/rotation_slider" to="." method="_on_rotation_slider_value_changed"]
+[connection signal="value_changed" from="margin/vbox/panel/margin/hflow/rotation_spinbox" to="." method="_on_rotation_spinbox_value_changed"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/flip_horizontal" to="." method="_on_flip_horizontal_pressed"]
 [connection signal="pressed" from="margin/vbox/panel/margin/hflow/flip_vertical" to="." method="_on_flip_vertical_pressed"]

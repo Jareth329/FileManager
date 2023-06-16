@@ -34,6 +34,10 @@ func _on_gui_input(event:InputEvent) -> void:
 			else: zoom_center(-zoom_step)
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			dragging = true
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			camera.zoom = default_camera_zoom
+			camera.offset = default_camera_offset
+			Signals.rotation_changed.emit(0)
 	elif event is InputEventMouseMotion and dragging:
 		click_drag(event.relative)
 
