@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bmf2ktvy6p64h"]
+[gd_scene load_steps=8 format=3 uid="uid://bmf2ktvy6p64h"]
 
-[ext_resource type="Script" path="res://Globals/Main.cs" id="1_he7wl"]
+[ext_resource type="Script" path="res://Globals/main.gd" id="1_s85bm"]
 [ext_resource type="PackedScene" uid="uid://d18hbe2tvu83g" path="res://Scanner/scanner.tscn" id="2_7ju6b"]
 [ext_resource type="Texture2D" uid="uid://yh475a0ve4yd" path="res://Assets/icon.svg" id="2_vtqo8"]
 [ext_resource type="PackedScene" uid="uid://c8k4xnudobnqb" path="res://Lister/lister.tscn" id="3_ipnl5"]
 [ext_resource type="Script" path="res://Scanner/ScannerUI.cs" id="3_sy72i"]
 [ext_resource type="PackedScene" uid="uid://b2dt855nsj02v" path="res://Viewer/viewer.tscn" id="4_117d1"]
+[ext_resource type="Script" path="res://Globals/fullscreen.gd" id="7_mwchh"]
 
 [node name="main" type="Control"]
 layout_mode = 3
@@ -15,7 +16,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_he7wl")
+script = ExtResource("1_s85bm")
 
 [node name="bg_color" type="ColorRect" parent="."]
 layout_mode = 1
@@ -269,6 +270,26 @@ visible = false
 layout_mode = 2
 script = ExtResource("3_sy72i")
 
+[node name="fullscreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+script = ExtResource("7_mwchh")
+
+[node name="bg_color" type="ColorRect" parent="fullscreen"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.160784, 0.160784, 0.160784, 0.764706)
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -306,6 +327,17 @@ offset_bottom = 615.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 44
 text = "In Progress and Queryable Scans =>"
+
+[node name="warning9" type="Label" parent="."]
+layout_mode = 2
+offset_left = -802.0
+offset_top = 696.0
+offset_right = -10.0
+offset_bottom = 826.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 44
+text = "Maybe these should share a button
+and have tabs one the panel?"
 
 [node name="warning2" type="Label" parent="."]
 layout_mode = 2

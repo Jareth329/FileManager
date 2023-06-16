@@ -26,7 +26,7 @@ namespace FileManager.Core
 
         internal static int HsplitOffset { get; set; } = -240;
         internal static int VsplitOffsetLeft { get; set; } = 0;
-        internal static int VsplitOffsetRight { get; set; } = 240;
+        internal static int VsplitOffsetRight { get; set; } = 320;
 
         internal static string GetMetadataPath() => (UseDefaultMetadataPath) ? DefaultMetadataPath : MetadataPath;
 
