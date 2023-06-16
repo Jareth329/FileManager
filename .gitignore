@@ -9,12 +9,14 @@
 .vs/
 data_*/
 
-# file
-*.txt
-*.bak
+# sqlite
 *.db
 *.db-shm
 *.db-wal
+
+# file
+*.txt
+*.bak
 *.old
 bin/
 lib/
