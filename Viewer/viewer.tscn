@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://b2dt855nsj02v"]
+[gd_scene load_steps=3 format=3 uid="uid://b2dt855nsj02v"]
+
+[ext_resource type="Script" path="res://Viewer/viewer.gd" id="1_hjx4j"]
+[ext_resource type="Texture2D" uid="uid://yh475a0ve4yd" path="res://Assets/icon.svg" id="2_4fd8p"]
 
 [node name="viewer" type="Control"]
 layout_mode = 3
@@ -10,6 +13,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
+script = ExtResource("1_hjx4j")
 
 [node name="panel" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -38,34 +42,44 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="display" type="TextureRect" parent="margin/vbox"]
+texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
+texture = ExtResource("2_4fd8p")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="hflow" type="HFlowContainer" parent="margin/vbox"]
+[node name="panel" type="PanelContainer" parent="margin/vbox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="hide_ui" type="Button" parent="margin/vbox/hflow"]
+[node name="hflow" type="HFlowContainer" parent="margin/vbox/panel"]
 layout_mode = 2
+mouse_filter = 2
+
+[node name="hide_ui" type="Button" parent="margin/vbox/panel/hflow"]
+layout_mode = 2
+tooltip_text = "[F3]
+Hides this ribbon."
 text = "  Hide UI  "
 
-[node name="fullscreen" type="Button" parent="margin/vbox/hflow"]
+[node name="fullscreen" type="Button" parent="margin/vbox/panel/hflow"]
 layout_mode = 2
+tooltip_text = "[F11]
+Makes this display take up entire screen."
 text = "  Fullscreen  "
 
-[node name="space1" type="Control" parent="margin/vbox/hflow"]
+[node name="space1" type="Control" parent="margin/vbox/panel/hflow"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="vbox" type="VBoxContainer" parent="margin/vbox/hflow"]
+[node name="vbox" type="VBoxContainer" parent="margin/vbox/panel/hflow"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="rotation" type="HSlider" parent="margin/vbox/hflow/vbox"]
+[node name="rotation" type="HSlider" parent="margin/vbox/panel/hflow/vbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 360.0
@@ -73,29 +87,36 @@ step = 5.0
 tick_count = 5
 ticks_on_borders = true
 
-[node name="panel" type="PanelContainer" parent="margin/vbox/hflow/vbox"]
+[node name="panel" type="PanelContainer" parent="margin/vbox/panel/hflow/vbox"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="margin/vbox/hflow/vbox/panel"]
+[node name="label" type="Label" parent="margin/vbox/panel/hflow/vbox/panel"]
 layout_mode = 2
 text = "  Rotation  "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="rotation_display" type="SpinBox" parent="margin/vbox/hflow"]
+[node name="rotation_display" type="SpinBox" parent="margin/vbox/panel/hflow"]
 layout_mode = 2
 max_value = 360.0
 step = 5.0
 
-[node name="space2" type="Control" parent="margin/vbox/hflow"]
+[node name="space2" type="Control" parent="margin/vbox/panel/hflow"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="flip_horizontal" type="Button" parent="margin/vbox/hflow"]
+[node name="flip_horizontal" type="CheckButton" parent="margin/vbox/panel/hflow"]
 layout_mode = 2
 text = "  Flip Horizontal  "
 
-[node name="flip_vertical" type="Button" parent="margin/vbox/hflow"]
+[node name="flip_vertical" type="CheckButton" parent="margin/vbox/panel/hflow"]
 layout_mode = 2
 text = "  Flip Vertical  "
+
+[connection signal="pressed" from="margin/vbox/panel/hflow/hide_ui" to="." method="_on_hide_ui_pressed"]
+[connection signal="pressed" from="margin/vbox/panel/hflow/fullscreen" to="." method="_on_fullscreen_pressed"]
+[connection signal="value_changed" from="margin/vbox/panel/hflow/vbox/rotation" to="." method="_on_rotation_value_changed"]
+[connection signal="value_changed" from="margin/vbox/panel/hflow/rotation_display" to="." method="_on_rotation_display_value_changed"]
+[connection signal="toggled" from="margin/vbox/panel/hflow/flip_horizontal" to="." method="_on_flip_horizontal_toggled"]
+[connection signal="toggled" from="margin/vbox/panel/hflow/flip_vertical" to="." method="_on_flip_vertical_toggled"]
