@@ -15,5 +15,12 @@ namespace FileManager.Globals
 
         public Color GetFullscreenBackgroundColor() => ColorConverter.ConvertToColor(Settings.FullscreenBackgroundColor);
         public void SetFullscreenBackgroundColor(Color color) => Settings.FullscreenBackgroundColor = ColorConverter.ConvertToInt32(color);
+
+        public int GetHsplitOffset() => Settings.HsplitOffset;
+        public void SetHsplitOffset(int offset) => Settings.HsplitOffset = offset;
+        public int GetVsplitOffsetLeft() => Settings.VsplitOffsetLeft;
+        public void SetVsplitOffsetLeft(int offset) => Settings.VsplitOffsetLeft = offset;
+        public int GetVsplitOffsetRight() => Settings.VsplitOffsetRight;
+        public void SetVsplitOffsetRight(int offset) => Settings.VsplitOffsetRight = offset;
     }
 }
